@@ -1,0 +1,83 @@
+.main {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 664px 1fr;
+}
+
+.leftPanel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: linear-gradient(
+      to bottom,
+      rgba(42, 40, 121, 0.9),
+      rgba(42, 40, 121, 0.6)
+    ),
+    url("../../../public/login-background.png");
+  border-radius: var(--radii-md);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.leftPanel p {
+  margin-left: 0.5rem;
+  font-size: 3rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #7fd1cc 0%, #9694f5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+.loginOptionsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginOptionsContainer h1 {
+  color: var(--color-gray-100);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2xl);
+}
+
+.loginOptionsContainer p {
+  color: var(--color-gray-200);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-md);
+  margin-bottom: 2.5rem;
+}
+
+.loginOptionButton {
+  color: var(--color-gray-200);
+  font-size: var(--font-size-lg);
+  background: var(--color-gray-600);
+  padding: 1.25rem 1.5rem;
+  border: 0;
+  border-radius: var(--radii-md);
+  cursor: pointer;
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.loginOptionButton:hover {
+  background: var(--color-gray-500);
+}
+
+.loginOptionButton svg {
+  color: var(--color-purple-100);
+}
+
+@media screen and (max-width: 1280px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+
+  .leftPanel {
+    display: none;
+  }
+}

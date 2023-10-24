@@ -1,9 +1,50 @@
 :root {
+  --color-green-100: #50b2c0;
+  --color-green-200: #255d6a;
+  --color-green-300: #0a313c;
+
+  --color-purple-100: #8381d9;
+  --color-purple-200: #2a2879;
+
+  --color-gray-100: #f8f9fc;
+  --color-gray-200: #e6e8f2;
+  --color-gray-300: #d1d6e4;
+  --color-gray-400: #8d95af;
+  --color-gray-500: #303f73;
+  --color-gray-600: #252d4a;
+  --color-gray-700: #181c2a;
+  --color-gray-800: #0e1116;
+
+  --gradient-vertical: `linear-gradient(180deg, #7fd1cc 0%, #9694f5 100%) `;
+  --gradient-horizontal: `linear-gradient(90deg, #7fd1cc 0%, #9694f5 100%) `;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+
+  --radii-xs: 2.5px;
+  --radii-sm: 5px;
+  --radii-md: 10px;
+  --radii-lg: 20px;
+  --radii-full: 99999px;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --line-height-shorter: 125%;
+  --line-height-short: 140%;
+  --line-height-base: 160%;
+  --line-height-tall: 180%;
+
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

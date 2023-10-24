@@ -7,6 +7,7 @@ type BookCardProps = {
   image: string | StaticImageData;
   authorName: string;
   stars: number;
+  alreadyRead?: boolean;
 };
 
 export default function BookCard({
@@ -14,6 +15,7 @@ export default function BookCard({
   authorName,
   image,
   stars,
+  alreadyRead = false,
 }: BookCardProps) {
   return (
     <div className={styles.container}>
@@ -28,6 +30,7 @@ export default function BookCard({
             <Star size={16} key={item} fill={item <= stars ? "#8381d9" : ""} />
           ))}
         </div>
+        {alreadyRead && <div className={styles.alreadyRead}>LIDO</div>}
       </div>
     </div>
   );

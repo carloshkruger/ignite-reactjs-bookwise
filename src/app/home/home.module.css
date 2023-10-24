@@ -3,26 +3,6 @@
   display: grid;
   grid-template-columns: 232px 1fr calc(324px + var(--popularBooksMarginRight));
   height: 100%;
-  /* max-width: 1440px;
-  margin: 0 auto; */
-}
-
-.menuContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  border-radius: var(--radii-md);
-  padding-top: 2rem;
-
-  background: linear-gradient(
-    to bottom,
-    #1b2041,
-    #141923,
-    #14162c,
-    #141f34,
-    #14242c
-  );
 }
 
 .content {

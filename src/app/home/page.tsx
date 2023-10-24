@@ -1,21 +1,18 @@
-import Logo from "@/components/Logo";
 import styles from "./home.module.css";
-import MenuItems from "./MenuItems";
 import PageTitle from "./PageTitle";
 import RecentReviewCard from "./RecentReviewCard";
 
 import Hobbit from "../../../public/books/o-hobbit.png";
-import BookCard from "./BookCard";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import SidebarMenu from "@/components/SidebarMenu";
+import BookCard from "@/components/BookCard";
 
 export default function Home() {
   return (
     <div className={styles.main}>
-      <div className={styles.menuContainer}>
-        <Logo />
-        <MenuItems />
-      </div>
+      <SidebarMenu />
+
       <div className={styles.content}>
         <PageTitle />
 

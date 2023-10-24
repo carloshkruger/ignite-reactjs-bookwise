@@ -1,6 +1,5 @@
 import { Star } from "lucide-react";
-import Hobbit from "../../../public/books/o-hobbit.png";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import styles from "./recent-view-card.module.css";
 
 type RecentReviewCardProps = {
@@ -13,6 +12,7 @@ type RecentReviewCardProps = {
       name: string;
       authorName: string;
     };
+    image: string | StaticImageData;
     date: Date;
     stars: number;
     content: string;
@@ -37,7 +37,7 @@ export default function RecentReviewCard({ review }: RecentReviewCardProps) {
         </div>
       </div>
       <div className={styles.recentReviewCardContent}>
-        <Image src={Hobbit} alt="" height={152} width={108} />
+        <Image src={review.image} alt="" height={152} width={108} />
         <div>
           <strong>{review.book.name}</strong>
           <span>{review.book.authorName}</span>

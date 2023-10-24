@@ -1,0 +1,31 @@
+.container {
+  padding: 1.25rem;
+  display: flex;
+  gap: 1.25rem;
+  background: var(--color-gray-700);
+  cursor: pointer;
+}
+
+.container > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.container .bookInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.container strong {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+}
+
+.container:hover {
+  background: var(--color-gray-600);
+}
+
+.starsContainer svg {
+  color: var(--color-purple-100);
+}

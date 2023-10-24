@@ -4,6 +4,11 @@ import MenuItems from "./MenuItems";
 import PageTitle from "./PageTitle";
 import RecentReviewCard from "./RecentReviewCard";
 
+import Hobbit from "../../../public/books/o-hobbit.png";
+import BookCard from "./BookCard";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
+
 export default function Home() {
   return (
     <div className={styles.main}>
@@ -38,11 +43,50 @@ export default function Home() {
               aenean posuere amet ultrices.`,
               date: new Date(),
               stars: 4,
+              image: Hobbit,
             }}
           />
         </div>
       </div>
-      <div>populares</div>
+      <div className={styles.popularBooksContainer}>
+        <div className={styles.popularBooksContainerTitle}>
+          <strong>Livros populares</strong>
+          <Link href="explore" className={styles.seeMore}>
+            Ver todos
+            <ChevronRight />
+          </Link>
+        </div>
+
+        <div className={styles.popularBooksContainerList}>
+          <BookCard
+            name="A revolução dos bichos"
+            authorName="George Orwell"
+            image={Hobbit}
+            stars={4}
+          />
+
+          <BookCard
+            name="A revolução dos bichos"
+            authorName="George Orwell"
+            image={Hobbit}
+            stars={4}
+          />
+
+          <BookCard
+            name="A revolução dos bichos"
+            authorName="George Orwell"
+            image={Hobbit}
+            stars={4}
+          />
+
+          <BookCard
+            name="A revolução dos bichos"
+            authorName="George Orwell"
+            image={Hobbit}
+            stars={4}
+          />
+        </div>
+      </div>
     </div>
   );
 }

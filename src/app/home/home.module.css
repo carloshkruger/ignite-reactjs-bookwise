@@ -1,6 +1,7 @@
 .main {
+  --popularBooksMarginRight: 6.25rem;
   display: grid;
-  grid-template-columns: 232px 1fr 324px;
+  grid-template-columns: 232px 1fr calc(324px + var(--popularBooksMarginRight));
   height: 100%;
   /* max-width: 1440px;
   margin: 0 auto; */
@@ -43,4 +44,52 @@
   flex-direction: column;
   gap: 0.75rem;
   margin-top: 0.75rem;
+}
+
+.popularBooksContainer {
+  margin-right: var(--popularBooksMarginRight);
+  margin-top: 7.5rem;
+}
+
+.popularBooksContainer .popularBooksContainerTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popularBooksContainer .popularBooksContainerTitle > strong {
+  color: var(--color-gray-100);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-sm);
+}
+
+.popularBooksContainer .popularBooksContainerTitle .seeMore {
+  display: flex;
+  align-items: center;
+  color: var(--color-purple-100);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  gap: 0.5rem;
+}
+
+.popularBooksContainer .popularBooksContainerList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+@media screen and (max-width: 1280px) {
+  .popularBooksContainer {
+    margin-right: 0;
+  }
+
+  .content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .main {
+    grid-template-columns: 232px 1fr 324px;
+  }
 }

@@ -68,4 +68,10 @@
   font-size: var(--font-size-sm);
   color: var(--color-gray-300);
   line-height: var(--line-height-base);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* number of lines to show */
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
 }

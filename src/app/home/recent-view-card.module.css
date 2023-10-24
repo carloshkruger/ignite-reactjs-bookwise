@@ -1,0 +1,71 @@
+.recentReviewCard {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background: var(--color-gray-700);
+  cursor: pointer;
+}
+
+.recentReviewCard:hover {
+  background: var(--color-gray-600);
+}
+
+.recentReviewCardHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.recentReviewCardHeaderInfo {
+  display: flex;
+  gap: 1rem;
+}
+
+.recentReviewCardHeaderInfo p {
+  font-size: var(--font-size-md);
+  color: var(--color-gray-100);
+}
+
+.recentReviewCardHeaderInfo span {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-400);
+}
+
+.recentReviewCardHeaderInfo img {
+  border-radius: var(--radii-full);
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.recentReviewCardHeaderStars svg {
+  color: var(--color-purple-100);
+}
+
+.recentReviewCardContent {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1.25rem;
+}
+
+.recentReviewCardContent > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.recentReviewCardContent > div strong {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-100);
+}
+
+.recentReviewCardContent > div span {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-400);
+}
+
+.recentReviewCardContent > div p {
+  margin-top: 1.25rem;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-300);
+  line-height: var(--line-height-base);
+}

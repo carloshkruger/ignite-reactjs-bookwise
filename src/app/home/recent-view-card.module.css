@@ -37,10 +37,6 @@
   width: 2.5rem;
 }
 
-.recentReviewCardHeaderStars svg {
-  color: var(--color-purple-100);
-}
-
 .recentReviewCardContent {
   margin-top: 2rem;
   display: flex;

@@ -1,11 +1,36 @@
+"use client";
+
 import styles from "./explore.module.css";
 import PageTitle from "./PageTitle";
 import SidebarMenu from "@/components/SidebarMenu";
 import BookCard from "@/components/BookCard";
 
 import Hobbit from "../../../public/books/o-hobbit.png";
+import { useState } from "react";
+import BookDetail, { BookDetailProps } from "./_components/BookDetail";
 
 export default function Explore() {
+  const [selectedBookDetails, setSelectedBookDetails] = useState<
+    BookDetailProps["details"] | null
+  >(null);
+
+  function handleSelectedBookDetails(id: string) {
+    setSelectedBookDetails({
+      title: "14 Hábitos de Desenvolvedores Altamente Produtivos",
+      author: "Zeno Rocha",
+      categories: ["Computação", "Educação"],
+      id,
+      pages: 160,
+      reviews: [],
+      stars: 4,
+      imageUrl: Hobbit,
+    });
+  }
+
+  function handleCloseBookDetails() {
+    setSelectedBookDetails(null);
+  }
+
   return (
     <div className={styles.main}>
       <SidebarMenu />
@@ -37,6 +62,7 @@ export default function Explore() {
             authorName="George Orwell"
             image={Hobbit}
             stars={4}
+            onClick={() => handleSelectedBookDetails("1")}
           />
 
           <BookCard
@@ -79,6 +105,13 @@ export default function Explore() {
           />
         </div>
       </div>
+
+      {!!selectedBookDetails && (
+        <BookDetail
+          details={selectedBookDetails}
+          onClose={handleCloseBookDetails}
+        />
+      )}
     </div>
   );
 }

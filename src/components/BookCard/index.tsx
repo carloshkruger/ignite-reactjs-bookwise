@@ -1,8 +1,10 @@
 import { Star } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import styles from "./book-card.module.css";
+import { ComponentProps } from "react";
+import StarsRating from "../StarsRating";
 
-type BookCardProps = {
+type BookCardProps = ComponentProps<"div"> & {
   name: string;
   image: string | StaticImageData;
   authorName: string;
@@ -16,20 +18,17 @@ export default function BookCard({
   image,
   stars,
   alreadyRead = false,
+  ...props
 }: BookCardProps) {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} {...props}>
       <Image src={image} alt="" width={64} height={94} />
       <div>
         <div className={styles.bookInfo}>
           <strong>{name}</strong>
           <span>{authorName}</span>
         </div>
-        <div className={styles.starsContainer}>
-          {[1, 2, 3, 4, 5].map((item) => (
-            <Star size={16} key={item} fill={item <= stars ? "#8381d9" : ""} />
-          ))}
-        </div>
+        <StarsRating stars={stars} />
         {alreadyRead && <div className={styles.alreadyRead}>LIDO</div>}
       </div>
     </div>

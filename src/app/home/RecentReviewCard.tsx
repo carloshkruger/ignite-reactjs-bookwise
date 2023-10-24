@@ -1,6 +1,6 @@
-import { Star } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import styles from "./recent-view-card.module.css";
+import StarsRating from "@/components/StarsRating";
 
 type RecentReviewCardProps = {
   review: {
@@ -30,11 +30,7 @@ export default function RecentReviewCard({ review }: RecentReviewCardProps) {
             <span>{review.date.toDateString()}</span>
           </div>
         </div>
-        <div className={styles.recentReviewCardHeaderStars}>
-          {[1, 2, 3, 4, 5].map((item) => (
-            <Star key={item} fill={item <= review.stars ? "#8381d9" : ""} />
-          ))}
-        </div>
+        <StarsRating stars={review.stars} starsSize={24} />
       </div>
       <div className={styles.recentReviewCardContent}>
         <Image src={review.image} alt="" height={152} width={108} />

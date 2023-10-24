@@ -20,17 +20,6 @@
   background-size: cover;
 }
 
-.leftPanel p {
-  margin-left: 0.5rem;
-  font-size: 3rem;
-  font-weight: bold;
-  background: linear-gradient(90deg, #7fd1cc 0%, #9694f5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
-}
-
 .loginOptionsContainer {
   display: flex;
   align-items: center;

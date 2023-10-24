@@ -1,8 +1,12 @@
-export default function BookHeartIcon() {
+type BookHeartIconProps = {
+  size?: number;
+};
+
+export default function BookHeartIcon({ size = 48 }: BookHeartIconProps) {
   return (
     <svg
-      width={48}
-      height={48}
+      width={size}
+      height={size}
       viewBox="0 0 48 48"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

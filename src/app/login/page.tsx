@@ -1,14 +1,13 @@
 import { Rocket } from "lucide-react";
-import BookHeartIcon from "./BookHeartIcon";
 import styles from "./login.module.css";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 export default function Login() {
   return (
     <div className={styles.main}>
       <div className={styles.leftPanel}>
-        <BookHeartIcon />
-        <p>BookWise</p>
+        <Logo size="4xl" />
       </div>
       <div className={styles.loginOptionsContainer}>
         <div>

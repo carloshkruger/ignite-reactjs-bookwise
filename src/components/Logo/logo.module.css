@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.container p {
+  margin-left: 0.5rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #7fd1cc 0%, #9694f5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+.container .textSizexl {
+  font-size: var(--font-size-xl);
+}
+
+.container .textSize4xl {
+  font-size: var(--font-size-4xl);
+}

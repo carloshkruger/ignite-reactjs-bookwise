@@ -1,7 +1,7 @@
 "use client";
 
 import { ChartLineUp } from "phosphor-react";
-import styles from "./page-title.module.css";
+import styles from "./styles.module.css";
 
 export default function PageTitle() {
   return (

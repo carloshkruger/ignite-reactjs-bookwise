@@ -1,11 +1,11 @@
-import styles from "./home.module.css";
-import PageTitle from "./PageTitle";
-import RecentReviewCard from "./_components/RecentReviewCard";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { PrismaClient } from "@prisma/client";
 import SidebarMenu from "@/components/SidebarMenu";
 import BookCard from "@/components/BookCard";
-import { PrismaClient } from "@prisma/client";
+import PageTitle from "./_components/PageTitle";
+import RecentReviewCard from "./_components/RecentReviewCard";
+import styles from "./styles.module.css";
 
 const prismaClient = new PrismaClient();
 

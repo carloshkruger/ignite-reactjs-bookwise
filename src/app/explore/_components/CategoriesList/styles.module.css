@@ -1,0 +1,22 @@
+.categoriesList {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 3.375rem;
+  flex-wrap: wrap;
+}
+
+.categoryItem {
+  color: var(--color-purple-100);
+  border: 1px solid var(--color-purple-100);
+  padding: 0.5rem;
+  border-radius: var(--radii-lg);
+  cursor: pointer;
+  background: transparent;
+}
+
+.categoryItem.selected,
+.categoryItem:hover {
+  background: var(--color-purple-200);
+  border: 1px solid var(--color-purple-200);
+  color: var(--color-gray-100);
+}

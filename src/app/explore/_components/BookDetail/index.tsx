@@ -9,27 +9,28 @@ export type BookDetailProps = {
   onClose: () => void;
   details: {
     id: string;
-    title: string;
+    name: string;
     author: string;
-    imageUrl: string | StaticImageData;
-    stars: number;
-    categories: string[];
-    pages: number;
-    reviews: {
-      author: {
+    coverUrl: string | StaticImageData;
+    categories: { category: { id: string; name: string } }[];
+    totalPages: number;
+    ratings: {
+      id: string;
+      user: {
+        id: string;
         name: string;
         avatarUrl: string;
       };
-      date: Date;
-      stars: number;
-      content: string;
+      createdAt: string;
+      rate: number;
+      description: string;
     }[];
   };
 };
 
 export default function BookDetail({ details, onClose }: BookDetailProps) {
   const [selectedStars, setSelectedStars] = useState(0);
-  const [showReviewForm, setShowReviewForm] = useState(true);
+  const [showReviewForm, setShowReviewForm] = useState(false);
 
   useEffect(() => {
     function escListener(e: KeyboardEvent) {
@@ -72,6 +73,11 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
     setSelectedStars(stars);
   }
 
+  const ratingQuantity = details.ratings.length;
+  const totalRate =
+    details.ratings.reduce((agg, cur) => agg + cur.rate, 0) / ratingQuantity;
+  const reviewsText = ratingQuantity > 1 ? "avaliações" : "avaliação";
+
   return (
     <>
       <div className={styles.overlay} />
@@ -81,15 +87,17 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
         </button>
         <div className={styles.bookInfoContainer}>
           <div className={styles.bookInfoContent}>
-            <Image src={details.imageUrl} alt="" width={171} height={242} />
+            <Image src={details.coverUrl} alt="" width={171} height={242} />
             <div className={styles.bookInfo}>
               <div>
-                <strong className={styles.bookTitle}>{details.title}</strong>
+                <strong className={styles.bookTitle}>{details.name}</strong>
                 <span className={styles.authorName}>{details.author}</span>
               </div>
               <div>
-                <StarsRating stars={details.stars} />
-                <span className={styles.reviewCount}>3 avaliações</span>
+                <StarsRating stars={totalRate} />
+                <span className={styles.reviewCount}>
+                  {ratingQuantity} {reviewsText}
+                </span>
               </div>
             </div>
           </div>
@@ -98,14 +106,18 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
               <Bookmark />
               <div>
                 <p>Categoria</p>
-                <span>{details.categories.join(", ")}</span>
+                <span>
+                  {details.categories
+                    .map((category) => category.category.name)
+                    .join(", ")}
+                </span>
               </div>
             </div>
             <div className={styles.bookInfoFooterItem}>
               <BookOpen />
               <div>
                 <p>Páginas</p>
-                <span>{details.pages}</span>
+                <span>{details.totalPages}</span>
               </div>
             </div>
           </div>
@@ -124,7 +136,12 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
           <form className={styles.form} onSubmit={handleCreateReview}>
             <div className={styles.formHeader}>
               <div className={styles.userInfo}>
-                <img src="https://github.com/carloshkruger.png" alt="" />
+                <Image
+                  src="https://github.com/carloshkruger.png"
+                  alt=""
+                  width={40}
+                  height={40}
+                />
                 <strong>Carlos Henrique Kruger</strong>
               </div>
               <StarsRating
@@ -152,10 +169,9 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
         )}
 
         <div className={styles.reviewList}>
-          <ReviewCard />
-          <ReviewCard />
-          <ReviewCard />
-          <ReviewCard />
+          {details.ratings.map((rating) => (
+            <ReviewCard key={rating.id} rating={rating} />
+          ))}
         </div>
       </div>
     </>

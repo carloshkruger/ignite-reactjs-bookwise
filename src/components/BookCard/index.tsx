@@ -1,4 +1,3 @@
-import { Star } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import styles from "./book-card.module.css";
 import { ComponentProps } from "react";

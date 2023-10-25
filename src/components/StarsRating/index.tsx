@@ -1,3 +1,5 @@
+"use client";
+
 import { Star } from "lucide-react";
 import styles from "./stars-rating.module.css";
 import { useState } from "react";

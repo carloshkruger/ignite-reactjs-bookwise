@@ -1,8 +1,8 @@
-import { BookOpen, Bookmark, Star, X } from "lucide-react";
+import { BookOpen, Bookmark, Check, X } from "lucide-react";
 import styles from "./book-detail.module.css";
 import Image, { StaticImageData } from "next/image";
 import ReviewCard from "../ReviewCard";
-import { useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import StarsRating from "@/components/StarsRating";
 
 export type BookDetailProps = {
@@ -28,6 +28,9 @@ export type BookDetailProps = {
 };
 
 export default function BookDetail({ details, onClose }: BookDetailProps) {
+  const [selectedStars, setSelectedStars] = useState(0);
+  const [showReviewForm, setShowReviewForm] = useState(true);
+
   useEffect(() => {
     function escListener(e: KeyboardEvent) {
       if (e.key === "Escape") {
@@ -39,6 +42,35 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
 
     return () => window.removeEventListener("keydown", escListener);
   }, [onClose]);
+
+  function handleShowReviewForm() {
+    if (showReviewForm) {
+      setSelectedStars(0);
+    }
+    setShowReviewForm((state) => !state);
+  }
+
+  function handleCreateReview(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!selectedStars) {
+      alert("Selecione a quantidade de estrelas.");
+      return;
+    }
+
+    const reviewContent = e.currentTarget.reviewContent.value.trim();
+
+    if (!reviewContent) {
+      alert("Informe o conteúdo da avaliação.");
+      return;
+    }
+
+    handleShowReviewForm();
+  }
+
+  function handleSelectedStars(stars: number) {
+    setSelectedStars(stars);
+  }
 
   return (
     <>
@@ -81,8 +113,43 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
 
         <div className={styles.reviewTitle}>
           <p>Avaliações</p>
-          <button type="button">Avaliar</button>
+          {!showReviewForm && (
+            <button onClick={handleShowReviewForm} type="button">
+              Avaliar
+            </button>
+          )}
         </div>
+
+        {showReviewForm && (
+          <form className={styles.form} onSubmit={handleCreateReview}>
+            <div className={styles.formHeader}>
+              <div className={styles.userInfo}>
+                <img src="https://github.com/carloshkruger.png" alt="" />
+                <strong>Carlos Henrique Kruger</strong>
+              </div>
+              <StarsRating
+                stars={selectedStars}
+                onSelect={handleSelectedStars}
+              />
+            </div>
+            <textarea
+              name="reviewContent"
+              placeholder="Escreva sua avaliação"
+            />
+            <div className={styles.formFooter}>
+              <button
+                onClick={handleShowReviewForm}
+                type="button"
+                className={styles.cancelButton}
+              >
+                <X />
+              </button>
+              <button type="submit" className={styles.submitButton}>
+                <Check />
+              </button>
+            </div>
+          </form>
+        )}
 
         <div className={styles.reviewList}>
           <ReviewCard />

@@ -146,3 +146,72 @@
     padding: 1rem;
   }
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-gray-700);
+  padding: 1.5rem;
+  margin-top: 1.25rem;
+}
+
+.formHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.formHeader .userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.formHeader strong {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
+  color: var(--color-gray-100);
+}
+
+.form textarea {
+  height: 164px;
+  resize: vertical;
+  background: var(--color-gray-800);
+  border: 1px solid var(--color-gray-500);
+  border-radius: var(--radii-sm);
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  line-height: var(--line-height-base);
+}
+
+.formHeader img {
+  height: 40px;
+  width: 40px;
+  border-radius: var(--radii-full);
+}
+
+.formFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.formFooter button {
+  padding: 0.5rem;
+  background: var(--color-gray-500);
+  border: 0;
+  cursor: pointer;
+}
+
+.formFooter button:hover {
+  background: var(--color-gray-600);
+}
+
+.cancelButton svg {
+  color: var(--color-purple-100);
+}
+
+.submitButton svg {
+  color: var(--color-green-100);
+}

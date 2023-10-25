@@ -1,16 +1,63 @@
-"use client";
-
 import styles from "./home.module.css";
 import PageTitle from "./PageTitle";
 import RecentReviewCard from "./RecentReviewCard";
-
-import Hobbit from "../../../public/images/books/o-hobbit.png";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import SidebarMenu from "@/components/SidebarMenu";
 import BookCard from "@/components/BookCard";
+import { PrismaClient } from "@prisma/client";
 
-export default function Home() {
+const prismaClient = new PrismaClient();
+
+async function getData() {
+  const books = await prismaClient.book.findMany({
+    orderBy: {
+      ratings: {
+        _count: "desc",
+      },
+    },
+    take: 4,
+  });
+  const bookRatings = await prismaClient.rating.groupBy({
+    by: "bookId",
+    _avg: {
+      rate: true,
+    },
+    where: {
+      bookId: {
+        in: books.map((book) => book.id),
+      },
+    },
+  });
+
+  const recentReviews = await prismaClient.rating.findMany({
+    include: {
+      user: true,
+      book: {
+        select: {
+          name: true,
+          coverUrl: true,
+          author: true,
+        },
+      },
+    },
+    take: 5,
+  });
+
+  return {
+    popularBooks: books.map((book) => ({
+      ...book,
+      rate:
+        bookRatings.find((rating) => rating.bookId === book.id)?._avg?.rate ??
+        0,
+    })),
+    recentReviews,
+  };
+}
+
+export default async function Home() {
+  const { popularBooks, recentReviews } = await getData();
+
   return (
     <div className={styles.main}>
       <SidebarMenu />
@@ -18,72 +65,54 @@ export default function Home() {
       <div className={styles.content}>
         <PageTitle />
 
-        <p className={styles.recentReviewTitle}>Avaliações mais recentes</p>
+        <div className={styles.contentWrapper}>
+          <div>
+            <p className={styles.recentReviewTitle}>Avaliações mais recentes</p>
 
-        <div className={styles.recentReviewListContainer}>
-          <RecentReviewCard
-            review={{
-              author: {
-                avatarUrl: "https://github.com/carloshkruger.png",
-                name: "Carlos henrique",
-              },
-              book: {
-                name: "O Hobbit",
-                authorName: "J.R.R. Tolkien",
-              },
-              content: `Semper et sapien proin vitae nisi. Feugiat neque integer donec et
-              aenean posuere amet ultrices. Cras fermentum id pulvinar varius leo
-              a in. Amet libero pharetra nunc elementum fringilla velit ipsum. Sed
-              vulputate massa velit nibh Semper et sapien proin vitae nisi.
-              Feugiat neque integer donec et aenean posuere amet ultrices. Cras
-              fermentum id pulvinar varius leo a in. Amet libero pharetra nunc
-              elementum fringilla velit ipsum. Sed vulputate massa velit nibh
-              Semper et sapien proin vitae nisi. Feugiat neque integer donec et
-              aenean posuere amet ultrices.`,
-              date: new Date(),
-              stars: 4,
-              image: Hobbit,
-            }}
-          />
-        </div>
-      </div>
-      <div className={styles.popularBooksContainer}>
-        <div className={styles.popularBooksContainerTitle}>
-          <strong>Livros populares</strong>
-          <Link href="explore" className={styles.seeMore}>
-            Ver todos
-            <ChevronRight />
-          </Link>
-        </div>
+            <div className={styles.recentReviewListContainer}>
+              {recentReviews.map((review) => (
+                <RecentReviewCard
+                  key={review.id}
+                  review={{
+                    author: {
+                      avatarUrl: review.user.avatarUrl || "",
+                      name: review.user.name,
+                    },
+                    book: {
+                      name: review.book.name,
+                      authorName: review.book.author,
+                      coverUrl: review.book.coverUrl,
+                    },
+                    content: review.description,
+                    date: review.createdAt.toDateString(),
+                    stars: review.rate,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
 
-        <div className={styles.popularBooksContainerList}>
-          <BookCard
-            name="A revolução dos bichos"
-            authorName="George Orwell"
-            image={Hobbit}
-            stars={4}
-          />
+          <div className={styles.popularBooksContainer}>
+            <div className={styles.popularBooksContainerTitle}>
+              <strong>Livros populares</strong>
+              <Link href="explore" className={styles.seeMore}>
+                Ver todos
+                <ChevronRight />
+              </Link>
+            </div>
 
-          <BookCard
-            name="A revolução dos bichos"
-            authorName="George Orwell"
-            image={Hobbit}
-            stars={4}
-          />
-
-          <BookCard
-            name="A revolução dos bichos"
-            authorName="George Orwell"
-            image={Hobbit}
-            stars={4}
-          />
-
-          <BookCard
-            name="A revolução dos bichos"
-            authorName="George Orwell"
-            image={Hobbit}
-            stars={4}
-          />
+            <div className={styles.popularBooksContainerList}>
+              {popularBooks.map((book) => (
+                <BookCard
+                  key={book.id}
+                  name={book.name}
+                  authorName={book.author}
+                  image={book.coverUrl}
+                  stars={book.rate}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

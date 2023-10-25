@@ -1,4 +1,4 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import styles from "./recent-view-card.module.css";
 import StarsRating from "@/components/StarsRating";
 
@@ -11,9 +11,9 @@ type RecentReviewCardProps = {
     book: {
       name: string;
       authorName: string;
+      coverUrl: string;
     };
-    image: string | StaticImageData;
-    date: Date;
+    date: string;
     stars: number;
     content: string;
   };
@@ -24,16 +24,16 @@ export default function RecentReviewCard({ review }: RecentReviewCardProps) {
     <div className={styles.recentReviewCard}>
       <div className={styles.recentReviewCardHeader}>
         <div className={styles.recentReviewCardHeaderInfo}>
-          <img src={review.author.avatarUrl} alt="" />
+          <Image src={review.author.avatarUrl} alt="" width={40} height={40} />
           <div>
             <p>{review.author.name}</p>
-            <span>{review.date.toDateString()}</span>
+            <span>{review.date}</span>
           </div>
         </div>
         <StarsRating stars={review.stars} starsSize={24} />
       </div>
       <div className={styles.recentReviewCardContent}>
-        <Image src={review.image} alt="" height={152} width={108} />
+        <Image src={review.book.coverUrl} alt="" height={152} width={108} />
         <div>
           <strong>{review.book.name}</strong>
           <span>{review.book.authorName}</span>

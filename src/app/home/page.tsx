@@ -1,6 +1,6 @@
 import styles from "./home.module.css";
 import PageTitle from "./PageTitle";
-import RecentReviewCard from "./RecentReviewCard";
+import RecentReviewCard from "./_components/RecentReviewCard";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import SidebarMenu from "@/components/SidebarMenu";

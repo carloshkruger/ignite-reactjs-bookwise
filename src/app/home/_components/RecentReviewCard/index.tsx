@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "./recent-view-card.module.css";
+import styles from "./styles.module.css";
 import StarsRating from "@/components/StarsRating";
 
 type RecentReviewCardProps = {

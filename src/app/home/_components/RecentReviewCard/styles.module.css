@@ -3,7 +3,7 @@
   flex-direction: column;
   padding: 1.5rem;
   background: var(--color-gray-700);
-  cursor: pointer;
+  border-radius: var(--radii-md);
 }
 
 .recentReviewCard:hover {

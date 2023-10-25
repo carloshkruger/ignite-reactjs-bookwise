@@ -1,8 +1,10 @@
+"use client";
+
 import styles from "./home.module.css";
 import PageTitle from "./PageTitle";
 import RecentReviewCard from "./RecentReviewCard";
 
-import Hobbit from "../../../public/books/o-hobbit.png";
+import Hobbit from "../../../public/images/books/o-hobbit.png";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import SidebarMenu from "@/components/SidebarMenu";

@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  avatarUrl String?
+  createdAt DateTime @default(now())
+
+  accounts Account[]
+  sessions Session[]
+  ratings  Rating[]
+
+  @@map("users")
+}
+
+model Book {
+  id         String   @id @default(uuid())
+  name       String
+  author     String
+  summary    String
+  coverUrl   String
+  totalPages Int
+  createdAt  DateTime @default(now())
+
+  categories CategoriesOnBooks[]
+  ratings    Rating[]
+
+  @@map("books")
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String @unique
+
+  books CategoriesOnBooks[]
+
+  @@map("categories")
+}
+
+model CategoriesOnBooks {
+  bookId     String
+  categoryId String
+
+  book     Book     @relation(fields: [bookId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@id([bookId, categoryId])
+}
+
+model Rating {
+  id          String   @id @default(uuid())
+  rate        Int
+  description String
+  createdAt   DateTime @default(now())
+
+  book   Book   @relation(fields: [bookId], references: [id])
+  bookId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@map("ratings")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refreshToken      String?
+  accessToken       String?
+  expiresAt         Int?
+  tokenType         String?
+  scope             String?
+  idToken           String?
+  sessionState      String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}

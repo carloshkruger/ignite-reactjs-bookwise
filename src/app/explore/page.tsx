@@ -1,8 +1,9 @@
-import styles from "./explore.module.css";
-import PageTitle from "./PageTitle";
 import SidebarMenu from "@/components/SidebarMenu";
 import CategoriesList from "./_components/CategoriesList";
 import BookList from "./_components/BookList";
+import PageTitle from "./_components/PageTitle";
+
+import styles from "./styles.module.css";
 
 async function getData(categoryId: string = "") {
   const response = await fetch(

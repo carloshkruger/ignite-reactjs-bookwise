@@ -135,13 +135,6 @@
   cursor: pointer;
 }
 
-.reviewList {
-  margin-top: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 @media screen and (max-width: 660px) {
   .container {
     width: 100%;

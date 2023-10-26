@@ -1,9 +1,10 @@
 import { BookOpen, Bookmark, Check, X } from "lucide-react";
 import styles from "./book-detail.module.css";
 import Image, { StaticImageData } from "next/image";
-import ReviewCard from "../ReviewCard";
 import { FormEvent, useEffect, useState } from "react";
 import StarsRating from "@/components/StarsRating";
+import { useSession } from "next-auth/react";
+import ReviewList, { Rating } from "../ReviewList";
 
 export type BookDetailProps = {
   onClose: () => void;
@@ -14,23 +15,17 @@ export type BookDetailProps = {
     coverUrl: string | StaticImageData;
     categories: { category: { id: string; name: string } }[];
     totalPages: number;
-    ratings: {
-      id: string;
-      user: {
-        id: string;
-        name: string;
-        avatarUrl: string;
-      };
-      createdAt: string;
-      rate: number;
-      description: string;
-    }[];
+    ratings: Rating[];
   };
 };
 
 export default function BookDetail({ details, onClose }: BookDetailProps) {
+  const [book, setBook] = useState(details);
   const [selectedStars, setSelectedStars] = useState(0);
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const { data, status } = useSession();
+
+  const isUserAuthenticated = status === "authenticated";
 
   useEffect(() => {
     function escListener(e: KeyboardEvent) {
@@ -45,13 +40,17 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
   }, [onClose]);
 
   function handleShowReviewForm() {
+    if (!isUserAuthenticated) {
+      alert("Você precisa estar logado para avaliar.");
+      return;
+    }
     if (showReviewForm) {
       setSelectedStars(0);
     }
     setShowReviewForm((state) => !state);
   }
 
-  function handleCreateReview(e: FormEvent<HTMLFormElement>) {
+  async function handleCreateReview(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!selectedStars) {
@@ -66,6 +65,27 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
       return;
     }
 
+    const response = await fetch("http://localhost:3000/api/ratings", {
+      method: "POST",
+      body: JSON.stringify({
+        description: reviewContent,
+        rate: selectedStars,
+        bookId: book.id,
+      }),
+    });
+
+    if (!response.ok) {
+      alert("Ocorreu um erro ao salvar a avaliação");
+      return;
+    }
+
+    const newRating = await response.json();
+
+    setBook((book) => ({
+      ...book,
+      ratings: [newRating, ...book.ratings],
+    }));
+
     handleShowReviewForm();
   }
 
@@ -73,9 +93,9 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
     setSelectedStars(stars);
   }
 
-  const ratingQuantity = details.ratings.length;
+  const ratingQuantity = book.ratings.length;
   const totalRate =
-    details.ratings.reduce((agg, cur) => agg + cur.rate, 0) / ratingQuantity;
+    book.ratings.reduce((agg, cur) => agg + cur.rate, 0) / ratingQuantity;
   const reviewsText = ratingQuantity > 1 ? "avaliações" : "avaliação";
 
   return (
@@ -87,11 +107,11 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
         </button>
         <div className={styles.bookInfoContainer}>
           <div className={styles.bookInfoContent}>
-            <Image src={details.coverUrl} alt="" width={171} height={242} />
+            <Image src={book.coverUrl} alt="" width={171} height={242} />
             <div className={styles.bookInfo}>
               <div>
-                <strong className={styles.bookTitle}>{details.name}</strong>
-                <span className={styles.authorName}>{details.author}</span>
+                <strong className={styles.bookTitle}>{book.name}</strong>
+                <span className={styles.authorName}>{book.author}</span>
               </div>
               <div>
                 <StarsRating stars={totalRate} />
@@ -107,7 +127,7 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
               <div>
                 <p>Categoria</p>
                 <span>
-                  {details.categories
+                  {book.categories
                     .map((category) => category.category.name)
                     .join(", ")}
                 </span>
@@ -117,7 +137,7 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
               <BookOpen />
               <div>
                 <p>Páginas</p>
-                <span>{details.totalPages}</span>
+                <span>{book.totalPages}</span>
               </div>
             </div>
           </div>
@@ -132,17 +152,12 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
           )}
         </div>
 
-        {showReviewForm && (
+        {showReviewForm && isUserAuthenticated && (
           <form className={styles.form} onSubmit={handleCreateReview}>
             <div className={styles.formHeader}>
               <div className={styles.userInfo}>
-                <Image
-                  src="https://github.com/carloshkruger.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                />
-                <strong>Carlos Henrique Kruger</strong>
+                <Image src={data?.user?.image!} alt="" width={40} height={40} />
+                <strong>{data?.user?.name}</strong>
               </div>
               <StarsRating
                 stars={selectedStars}
@@ -168,11 +183,7 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
           </form>
         )}
 
-        <div className={styles.reviewList}>
-          {details.ratings.map((rating) => (
-            <ReviewCard key={rating.id} rating={rating} />
-          ))}
-        </div>
+        <ReviewList ratings={book.ratings} />
       </div>
     </>
   );

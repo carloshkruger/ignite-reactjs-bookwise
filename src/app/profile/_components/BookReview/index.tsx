@@ -11,12 +11,14 @@ type BookReviewProps = {
   };
   description: string;
   createdAt: string;
+  rate: number;
 };
 
 export default function BookReview({
   book,
   description,
   createdAt,
+  rate,
 }: BookReviewProps) {
   return (
     <div>
@@ -29,7 +31,7 @@ export default function BookReview({
               <strong className={styles.bookTitle}>{book.name}</strong>
               <span className={styles.authorName}>{book.author}</span>
             </div>
-            <StarsRating stars={4} />
+            <StarsRating stars={rate} />
           </div>
         </div>
         <p className={styles.reviewDescription}>{description}</p>

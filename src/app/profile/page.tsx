@@ -73,19 +73,24 @@ export default async function Profile() {
 
         <div className={styles.contentWrapper}>
           <div className={styles.bookReviewList}>
-            {ratings.map((rating) => (
-              <BookReview
-                key={rating.id}
-                description={rating.description}
-                book={{
-                  author: rating.book.author,
-                  name: rating.book.name,
-                  coverUrl: rating.book.coverUrl,
-                  ratings: rating.book.ratings,
-                }}
-                createdAt={rating.createdAt.toDateString()}
-              />
-            ))}
+            {ratings.length ? (
+              ratings.map((rating) => (
+                <BookReview
+                  key={rating.id}
+                  description={rating.description}
+                  book={{
+                    author: rating.book.author,
+                    name: rating.book.name,
+                    coverUrl: rating.book.coverUrl,
+                    ratings: rating.book.ratings,
+                  }}
+                  rate={rating.rate}
+                  createdAt={rating.createdAt.toDateString()}
+                />
+              ))
+            ) : (
+              <p>Nenhuma avaliação realizada pelo usuário</p>
+            )}
           </div>
           <div className={styles.userInfoAndStats}>
             <div className={styles.userInfo}>

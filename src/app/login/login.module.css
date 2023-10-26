@@ -40,6 +40,7 @@
 }
 
 .loginOptionButton {
+  width: 100%;
   color: var(--color-gray-200);
   font-size: var(--font-size-lg);
   background: var(--color-gray-600);
@@ -51,6 +52,7 @@
   display: flex;
   align-items: center;
   gap: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .loginOptionButton:hover {

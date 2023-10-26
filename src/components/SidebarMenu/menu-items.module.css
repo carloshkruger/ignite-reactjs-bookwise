@@ -53,5 +53,20 @@
 }
 
 .bottomMenuItem svg {
-  color: #50b2c0;
+  color: var(--color-green-100);
+}
+
+.signOutButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+}
+
+.signOutButton svg {
+  color: var(--color-danger);
 }

@@ -2,7 +2,7 @@
 
 import BookCard from "@/components/BookCard";
 
-import styles from "../../explore.module.css";
+import styles from "../../styles.module.css";
 import { useState } from "react";
 import BookDetail, { BookDetailProps } from "../BookDetail";
 

@@ -1,7 +1,7 @@
-import { Rocket } from "lucide-react";
 import styles from "./login.module.css";
-import Link from "next/link";
 import Logo from "@/components/Logo";
+import LoginAsGuestButton from "./_components/LoginAsGuestButton";
+import GitHubLoginButton from "./_components/GitHubLoginButton";
 
 export default function Login() {
   return (
@@ -13,10 +13,8 @@ export default function Login() {
         <div>
           <h1>Boas vindas!</h1>
           <p>Faça seu login ou acesse como visitante.</p>
-          <Link href="/home?guest=true" className={styles.loginOptionButton}>
-            <Rocket />
-            Acessar como visitante
-          </Link>
+          <GitHubLoginButton className={styles.loginOptionButton} />
+          <LoginAsGuestButton className={styles.loginOptionButton} />
         </div>
       </div>
     </div>

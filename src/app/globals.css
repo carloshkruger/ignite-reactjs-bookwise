@@ -15,6 +15,8 @@
   --color-gray-700: #181c2a;
   --color-gray-800: #0e1116;
 
+  --color-danger: #f75a68;
+
   --gradient-vertical: linear-gradient(180deg, #7fd1cc 0%, #9694f5 100%);
   --gradient-horizontal: linear-gradient(90deg, #7fd1cc 0%, #9694f5 100%);
 

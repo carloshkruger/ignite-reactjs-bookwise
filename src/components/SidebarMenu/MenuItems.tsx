@@ -43,7 +43,9 @@ export default function MenuItems({ isUserAuthenticated }: MenuItemsProps) {
       <div className={styles.menuItems}>
         <MenuItem href="home" text="Início" icon={ChartLineUp} />
         <MenuItem href="explore" text="Explorar" icon={Binoculars} />
-        <MenuItem href="profile" text="Perfil" icon={User} />
+        {isUserAuthenticated && (
+          <MenuItem href="profile" text="Perfil" icon={User} />
+        )}
       </div>
       <div className={styles.bottomMenuItems}>
         {isUserAuthenticated ? (

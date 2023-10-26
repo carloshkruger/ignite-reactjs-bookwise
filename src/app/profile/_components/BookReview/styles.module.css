@@ -1,0 +1,49 @@
+.creationDate {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-300);
+  font-weight: var(--font-weight-regular);
+}
+
+.container {
+  background: var(--color-gray-700);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.header {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.bookInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bookTitleContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.bookTitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-gray-100);
+  font-weight: var(--font-weight-bold);
+}
+
+.authorName {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-400);
+  font-weight: var(--font-weight-regular);
+}
+
+.reviewDescription {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-300);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-base);
+}

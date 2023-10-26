@@ -68,15 +68,12 @@
     margin-right: 0;
   }
 
-  .contentWrapper {
-    gap: 2rem;
-  }
-
   .content {
     padding-left: 2rem;
   }
 
   .contentWrapper {
+    gap: 2rem;
     grid-template-columns: 1fr 324px;
   }
 }

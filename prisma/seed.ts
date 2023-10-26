@@ -19,6 +19,7 @@ async function main() {
         id: user.id,
         name: user.name,
         avatarUrl: user.avatarUrl,
+        email: user.email!
       },
     })
   })

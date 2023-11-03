@@ -18,3 +18,10 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1rem;
 }
+
+@media screen and (max-width: 768px) {
+  .content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}

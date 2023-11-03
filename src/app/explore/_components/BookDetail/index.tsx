@@ -1,31 +1,40 @@
-import { BookOpen, Bookmark, Check, X } from "lucide-react";
-import styles from "./book-detail.module.css";
+import { BookOpen, Bookmark, X } from "lucide-react";
+import styles from "./styles.module.css";
 import Image, { StaticImageData } from "next/image";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import StarsRating from "@/components/StarsRating";
 import { useSession } from "next-auth/react";
 import ReviewList, { Rating } from "../ReviewList";
+import ReviewForm from "../ReviewForm";
+
+type BookDetails = {
+  id: string;
+  name: string;
+  author: string;
+  coverUrl: string | StaticImageData;
+  categories: { category: { id: string; name: string } }[];
+  totalPages: number;
+  ratings: Rating[];
+};
 
 export type BookDetailProps = {
   onClose: () => void;
-  details: {
-    id: string;
-    name: string;
-    author: string;
-    coverUrl: string | StaticImageData;
-    categories: { category: { id: string; name: string } }[];
-    totalPages: number;
-    ratings: Rating[];
-  };
+  bookId: string;
 };
 
-export default function BookDetail({ details, onClose }: BookDetailProps) {
-  const [book, setBook] = useState(details);
-  const [selectedStars, setSelectedStars] = useState(0);
+export default function BookDetail({ bookId, onClose }: BookDetailProps) {
+  const [book, setBook] = useState<BookDetails | null>(null);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const { data, status } = useSession();
 
   const isUserAuthenticated = status === "authenticated";
+  const isLoading = !book;
+
+  useEffect(() => {
+    fetch(`/api/books/${bookId}`)
+      .then((response) => response.json())
+      .then((response) => setBook(response));
+  }, [bookId]);
 
   useEffect(() => {
     function escListener(e: KeyboardEvent) {
@@ -44,33 +53,22 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
       alert("Você precisa estar logado para avaliar.");
       return;
     }
-    if (showReviewForm) {
-      setSelectedStars(0);
-    }
     setShowReviewForm((state) => !state);
   }
 
-  async function handleCreateReview(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    if (!selectedStars) {
-      alert("Selecione a quantidade de estrelas.");
-      return;
-    }
-
-    const reviewContent = e.currentTarget.reviewContent.value.trim();
-
-    if (!reviewContent) {
-      alert("Informe o conteúdo da avaliação.");
-      return;
-    }
-
-    const response = await fetch("http://localhost:3000/api/ratings", {
+  async function handleCreateReview({
+    rate,
+    content,
+  }: {
+    rate: number;
+    content: string;
+  }) {
+    const response = await fetch("/api/ratings", {
       method: "POST",
       body: JSON.stringify({
-        description: reviewContent,
-        rate: selectedStars,
-        bookId: book.id,
+        description: content,
+        rate,
+        bookId,
       }),
     });
 
@@ -82,15 +80,29 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
     const newRating = await response.json();
 
     setBook((book) => ({
-      ...book,
-      ratings: [newRating, ...book.ratings],
+      ...book!,
+      ratings: [newRating, ...book!.ratings],
     }));
 
     handleShowReviewForm();
   }
 
-  function handleSelectedStars(stars: number) {
-    setSelectedStars(stars);
+  if (isLoading) {
+    return (
+      <>
+        <div className={styles.overlay} />
+        <div className={styles.container}>
+          <button
+            type="button"
+            className={styles.closeButton}
+            onClick={onClose}
+          >
+            <X size={24} />
+          </button>
+          <div className={styles.loadingContainer}>Carregando...</div>
+        </div>
+      </>
+    );
   }
 
   const ratingQuantity = book.ratings.length;
@@ -153,34 +165,14 @@ export default function BookDetail({ details, onClose }: BookDetailProps) {
         </div>
 
         {showReviewForm && isUserAuthenticated && (
-          <form className={styles.form} onSubmit={handleCreateReview}>
-            <div className={styles.formHeader}>
-              <div className={styles.userInfo}>
-                <Image src={data?.user?.image!} alt="" width={40} height={40} />
-                <strong>{data?.user?.name}</strong>
-              </div>
-              <StarsRating
-                stars={selectedStars}
-                onSelect={handleSelectedStars}
-              />
-            </div>
-            <textarea
-              name="reviewContent"
-              placeholder="Escreva sua avaliação"
-            />
-            <div className={styles.formFooter}>
-              <button
-                onClick={handleShowReviewForm}
-                type="button"
-                className={styles.cancelButton}
-              >
-                <X />
-              </button>
-              <button type="submit" className={styles.submitButton}>
-                <Check />
-              </button>
-            </div>
-          </form>
+          <ReviewForm
+            user={{
+              name: data?.user?.name!,
+              avatarUrl: data?.user?.image!,
+            }}
+            onCreateReview={handleCreateReview}
+            onCloseReviewForm={handleShowReviewForm}
+          />
         )}
 
         <ReviewList ratings={book.ratings} />

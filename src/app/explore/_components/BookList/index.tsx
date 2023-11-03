@@ -4,7 +4,7 @@ import BookCard from "@/components/BookCard";
 
 import styles from "../../styles.module.css";
 import { useState } from "react";
-import BookDetail, { BookDetailProps } from "../BookDetail";
+import BookDetail from "../BookDetail";
 
 type Book = {
   id: string;
@@ -19,18 +19,14 @@ type BookListProps = {
 };
 
 export default function BookList({ books }: BookListProps) {
-  const [selectedBookDetails, setSelectedBookDetails] = useState<
-    BookDetailProps["details"] | null
-  >(null);
+  const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
 
-  async function handleSelectedBookDetails(id: string) {
-    const response = await fetch(`http://localhost:3000/api/books/${id}`);
-    const data = await response.json();
-    setSelectedBookDetails(data);
+  async function handleSelectedBook(id: string) {
+    setSelectedBookId(id);
   }
 
   function handleCloseBookDetails() {
-    setSelectedBookDetails(null);
+    setSelectedBookId(null);
   }
 
   return (
@@ -43,15 +39,12 @@ export default function BookList({ books }: BookListProps) {
             authorName={book.author}
             image={book.coverUrl}
             stars={book.rate}
-            onClick={() => handleSelectedBookDetails(book.id)}
+            onClick={() => handleSelectedBook(book.id)}
           />
         ))}
       </div>
-      {!!selectedBookDetails && (
-        <BookDetail
-          details={selectedBookDetails}
-          onClose={handleCloseBookDetails}
-        />
+      {!!selectedBookId && (
+        <BookDetail bookId={selectedBookId} onClose={handleCloseBookDetails} />
       )}
     </>
   );

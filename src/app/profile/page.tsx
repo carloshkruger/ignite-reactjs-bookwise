@@ -1,64 +1,51 @@
 import SidebarMenu from "@/components/SidebarMenu";
 import styles from "./styles.module.css";
 import PageTitle from "@/components/PageTitle";
-import { PrismaClient } from "@prisma/client";
 import BookReview from "./_components/BookReview";
 import Image from "next/image";
 import { BookOpen, Bookmark, LibraryBig, UserSquare } from "lucide-react";
 import UserStatItem from "./_components/UserStatItem";
-import { getLoggedUserInfo } from "@/utils/getLoggedUserInfo";
 import { User } from "@/components/PhosphorIcons";
+import { headers } from "next/headers";
 
-const prismaClient = new PrismaClient();
+type User = {
+  name: string;
+  avatarUrl: string;
+  createdAt: string;
+};
 
-async function getData() {
-  const loggedUser = await getLoggedUserInfo();
-
-  const userInfo = await prismaClient.user.findUnique({
-    select: {
-      id: true,
-      name: true,
-      avatarUrl: true,
-      createdAt: true,
-    },
-    where: {
-      email: loggedUser?.email!,
-    },
-  });
-
-  const ratings = await prismaClient.rating.findMany({
-    include: {
-      book: {
-        include: {
-          ratings: {
-            select: {
-              rate: true,
-            },
-          },
-        },
-      },
-    },
-    where: {
-      user: {
-        id: userInfo?.id,
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  const reviewCount = await prismaClient.rating.count({
-    where: {
-      userId: userInfo?.id,
-    },
-  });
-
-  const userStats = {
-    reviewCount,
+type Rating = {
+  id: string;
+  description: string;
+  book: {
+    author: string;
+    name: string;
+    coverUrl: string;
+    ratings: { rate: number }[];
   };
+  rate: number;
+  createdAt: string;
+};
 
-  return { userInfo, userStats, ratings };
+type GetDataResponse = {
+  userInfo: User;
+  ratings: Rating[];
+  userStats: {
+    reviewCount: number;
+  };
+};
+
+async function getData(): Promise<GetDataResponse> {
+  const response = await fetch("http://localhost:3000/api/me", {
+    headers: headers(),
+  });
+  const data = await response.json();
+
+  return {
+    userInfo: data.userInfo,
+    ratings: data.ratings,
+    userStats: data.userStats,
+  };
 }
 
 export default async function Profile() {
@@ -78,14 +65,9 @@ export default async function Profile() {
                 <BookReview
                   key={rating.id}
                   description={rating.description}
-                  book={{
-                    author: rating.book.author,
-                    name: rating.book.name,
-                    coverUrl: rating.book.coverUrl,
-                    ratings: rating.book.ratings,
-                  }}
+                  book={rating.book}
                   rate={rating.rate}
-                  createdAt={rating.createdAt.toDateString()}
+                  createdAt={rating.createdAt}
                 />
               ))
             ) : (
@@ -94,10 +76,10 @@ export default async function Profile() {
           </div>
           <div className={styles.userInfoAndStats}>
             <div className={styles.userInfo}>
-              <Image src={userInfo?.avatarUrl!} width={72} height={72} alt="" />
-              <p className={styles.userName}>{userInfo?.name}</p>
+              <Image src={userInfo.avatarUrl!} width={72} height={72} alt="" />
+              <p className={styles.userName}>{userInfo.name}</p>
               <span className={styles.userJoinedDate}>
-                {userInfo?.createdAt.toDateString()}
+                {userInfo.createdAt}
               </span>
             </div>
             <div className={styles.divider} />

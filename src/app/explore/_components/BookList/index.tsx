@@ -35,9 +35,9 @@ export default function BookList({ books }: BookListProps) {
           <BookCard
             key={book.id}
             name={book.name}
-            authorName={book.author}
+            author={book.author}
             image={book.coverUrl}
-            stars={book.rate}
+            rate={book.rate}
             onClick={() => handleSelectedBook(book.id)}
           />
         ))}

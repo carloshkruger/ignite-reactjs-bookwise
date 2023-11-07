@@ -2,17 +2,16 @@ import SidebarMenu from "@/components/SidebarMenu";
 import styles from "./styles.module.css";
 import PageTitle from "./_components/PageTitle";
 import { PrismaClient } from "@prisma/client";
-import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 import BookReview from "./_components/BookReview";
 import Image from "next/image";
 import { BookOpen, Bookmark, LibraryBig, UserSquare } from "lucide-react";
 import UserStatItem from "./_components/UserStatItem";
+import { getLoggedUserInfo } from "@/utils/getLoggedUserInfo";
 
 const prismaClient = new PrismaClient();
 
 async function getData() {
-  const session = await getServerSession(nextAuthOptions);
+  const loggedUser = await getLoggedUserInfo();
 
   const userInfo = await prismaClient.user.findUnique({
     select: {
@@ -22,7 +21,7 @@ async function getData() {
       createdAt: true,
     },
     where: {
-      email: session?.user?.email!,
+      email: loggedUser?.email!,
     },
   });
 

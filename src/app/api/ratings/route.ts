@@ -1,18 +1,17 @@
 import { PrismaClient } from "@prisma/client";
-import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../auth/[...nextauth]/route";
+import { getLoggedUserInfo } from "@/utils/getLoggedUserInfo";
 
 const prismaClient  = new PrismaClient()
 
 export async function POST(request: Request) {
-  const session = await getServerSession(nextAuthOptions)
-  if (!session || !session.user) {
+  const loggedUser = await getLoggedUserInfo()
+  if (!loggedUser) {
     return Response.error()
   }
 
   const user = await prismaClient.user.findUnique({
     where: {
-      email: session.user.email!
+      email: loggedUser.email!
     }
   })
   if (!user) {

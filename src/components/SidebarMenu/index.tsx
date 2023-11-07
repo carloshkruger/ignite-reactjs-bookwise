@@ -1,13 +1,12 @@
-import { getServerSession } from "next-auth";
 import Logo from "../Logo";
 import MenuItems from "./MenuItems";
 import styles from "./styles.module.css";
-import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getLoggedUserInfo } from "@/utils/getLoggedUserInfo";
 
 export default async function SidebarMenu() {
-  const session = await getServerSession(nextAuthOptions);
+  const loggedUser = await getLoggedUserInfo();
 
-  const isUserAuthenticated = !!session?.user;
+  const isUserAuthenticated = !!loggedUser;
 
   return (
     <div className={styles.menuContainer}>

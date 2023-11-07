@@ -7,7 +7,7 @@ import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 import BookReview from "./_components/BookReview";
 import Image from "next/image";
 import { BookOpen, Bookmark, LibraryBig, UserSquare } from "lucide-react";
-import { ElementType } from "react";
+import UserStatItem from "./_components/UserStatItem";
 
 const prismaClient = new PrismaClient();
 
@@ -121,24 +121,6 @@ export default async function Profile() {
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-type UserStatItemProps = {
-  title: string;
-  value: string | number;
-  icon: ElementType;
-};
-
-function UserStatItem({ title, value, icon: Icon }: UserStatItemProps) {
-  return (
-    <div className={styles.userStatItem}>
-      <Icon className={styles.userStatItemIcon} size={32} />
-      <div className={styles.userStatItemInfo}>
-        <span className={styles.userStatItemInfoValue}>{value}</span>
-        <span className={styles.userStatItemInfoTitle}>{title}</span>
       </div>
     </div>
   );

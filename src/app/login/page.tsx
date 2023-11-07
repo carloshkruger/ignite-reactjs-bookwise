@@ -1,4 +1,4 @@
-import styles from "./login.module.css";
+import styles from "./styles.module.css";
 import Logo from "@/components/Logo";
 import LoginAsGuestButton from "./_components/LoginAsGuestButton";
 import GitHubLoginButton from "./_components/GitHubLoginButton";

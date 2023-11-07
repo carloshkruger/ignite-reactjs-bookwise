@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import Logo from "../Logo";
 import MenuItems from "./MenuItems";
-import styles from "./sidebar-menu.module.css";
+import styles from "./styles.module.css";
 import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function SidebarMenu() {

@@ -4,7 +4,7 @@ import { ElementType } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Binoculars, ChartLineUp, SignIn, SignOut, User } from "phosphor-react";
-import styles from "./menu-items.module.css";
+import styles from "./styles.module.css";
 import { signOut } from "next-auth/react";
 
 type MenuItemProps = {

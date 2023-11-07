@@ -1,5 +1,5 @@
 import BookHeartIcon from "./BookHeartIcon";
-import styles from "./logo.module.css";
+import styles from "./styles.module.css";
 
 type LogoProps = {
   size?: "xl" | "4xl";

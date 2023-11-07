@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "./review-card.module.css";
+import styles from "./styles.module.css";
 import StarsRating from "@/components/StarsRating";
 
 type Rating = {

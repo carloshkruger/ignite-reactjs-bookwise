@@ -1,10 +1,9 @@
 "use client";
 
-import BookCard from "@/components/BookCard";
-
-import styles from "../../styles.module.css";
 import { useState } from "react";
+import BookCard from "@/components/BookCard";
 import BookDetail from "../BookDetail";
+import styles from "./styles.module.css";
 
 type Book = {
   id: string;
@@ -31,7 +30,7 @@ export default function BookList({ books }: BookListProps) {
 
   return (
     <>
-      <div className={styles.bookList}>
+      <div className={styles.container}>
         {books.map((book: Book) => (
           <BookCard
             key={book.id}

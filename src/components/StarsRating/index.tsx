@@ -1,7 +1,7 @@
 "use client";
 
 import { Star } from "lucide-react";
-import styles from "./stars-rating.module.css";
+import styles from "./styles.module.css";
 import { useState } from "react";
 
 type StarsRating = {

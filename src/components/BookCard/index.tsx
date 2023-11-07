@@ -1,6 +1,6 @@
-import Image, { StaticImageData } from "next/image";
-import styles from "./book-card.module.css";
 import { ComponentProps } from "react";
+import Image, { StaticImageData } from "next/image";
+import styles from "./styles.module.css";
 import StarsRating from "../StarsRating";
 
 type BookCardProps = ComponentProps<"div"> & {

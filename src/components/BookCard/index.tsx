@@ -6,16 +6,16 @@ import StarsRating from "../StarsRating";
 type BookCardProps = ComponentProps<"div"> & {
   name: string;
   image: string | StaticImageData;
-  authorName: string;
-  stars: number;
+  author: string;
+  rate: number;
   alreadyRead?: boolean;
 };
 
 export default function BookCard({
   name,
-  authorName,
+  author,
   image,
-  stars,
+  rate,
   alreadyRead = false,
   ...props
 }: BookCardProps) {
@@ -25,9 +25,9 @@ export default function BookCard({
       <div>
         <div className={styles.bookInfo}>
           <strong>{name}</strong>
-          <span>{authorName}</span>
+          <span>{author}</span>
         </div>
-        <StarsRating stars={stars} />
+        <StarsRating stars={rate} />
         {alreadyRead && <div className={styles.alreadyRead}>LIDO</div>}
       </div>
     </div>

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { PrismaClient } from "@prisma/client";
 import SidebarMenu from "@/components/SidebarMenu";
 import BookCard from "@/components/BookCard";
 import PageTitle from "@/components/PageTitle";
@@ -8,51 +7,42 @@ import RecentReviewCard from "./_components/RecentReviewCard";
 import { ChartLineUp } from "@/components/PhosphorIcons";
 import styles from "./styles.module.css";
 
-const prismaClient = new PrismaClient();
+type Book = {
+  id: string;
+  name: string;
+  author: string;
+  coverUrl: string;
+  rate: number;
+};
 
-async function getData() {
-  const books = await prismaClient.book.findMany({
-    orderBy: {
-      ratings: {
-        _count: "desc",
-      },
-    },
-    take: 4,
-  });
-  const bookRatings = await prismaClient.rating.groupBy({
-    by: "bookId",
-    _avg: {
-      rate: true,
-    },
-    where: {
-      bookId: {
-        in: books.map((book) => book.id),
-      },
-    },
-  });
+type Review = {
+  id: string;
+  user: {
+    name: string;
+    avatarUrl: string;
+  };
+  book: {
+    name: string;
+    author: string;
+    coverUrl: string;
+  };
+  createdAt: string;
+  rate: number;
+  description: string;
+};
 
-  const recentReviews = await prismaClient.rating.findMany({
-    include: {
-      user: true,
-      book: {
-        select: {
-          name: true,
-          coverUrl: true,
-          author: true,
-        },
-      },
-    },
-    take: 5,
-  });
+type GetDataResponse = {
+  popularBooks: Book[];
+  recentReviews: Review[];
+};
+
+async function getData(): Promise<GetDataResponse> {
+  const response = await fetch("http://localhost:3000/api/home");
+  const data = await response.json();
 
   return {
-    popularBooks: books.map((book) => ({
-      ...book,
-      rate:
-        bookRatings.find((rating) => rating.bookId === book.id)?._avg?.rate ??
-        0,
-    })),
-    recentReviews,
+    popularBooks: data.popularBooks,
+    recentReviews: data.recentReviews,
   };
 }
 
@@ -72,23 +62,7 @@ export default async function Home() {
 
             <div className={styles.recentReviewListContainer}>
               {recentReviews.map((review) => (
-                <RecentReviewCard
-                  key={review.id}
-                  review={{
-                    author: {
-                      avatarUrl: review.user.avatarUrl || "",
-                      name: review.user.name,
-                    },
-                    book: {
-                      name: review.book.name,
-                      authorName: review.book.author,
-                      coverUrl: review.book.coverUrl,
-                    },
-                    content: review.description,
-                    date: review.createdAt.toDateString(),
-                    stars: review.rate,
-                  }}
-                />
+                <RecentReviewCard key={review.id} review={review} />
               ))}
             </div>
           </div>
@@ -107,9 +81,9 @@ export default async function Home() {
                 <BookCard
                   key={book.id}
                   name={book.name}
-                  authorName={book.author}
+                  author={book.author}
                   image={book.coverUrl}
-                  stars={book.rate}
+                  rate={book.rate}
                 />
               ))}
             </div>

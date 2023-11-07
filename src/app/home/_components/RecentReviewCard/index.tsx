@@ -4,18 +4,18 @@ import StarsRating from "@/components/StarsRating";
 
 type RecentReviewCardProps = {
   review: {
-    author: {
+    user: {
       name: string;
       avatarUrl: string;
     };
     book: {
       name: string;
-      authorName: string;
+      author: string;
       coverUrl: string;
     };
-    date: string;
-    stars: number;
-    content: string;
+    createdAt: string;
+    rate: number;
+    description: string;
   };
 };
 
@@ -24,20 +24,20 @@ export default function RecentReviewCard({ review }: RecentReviewCardProps) {
     <div className={styles.recentReviewCard}>
       <div className={styles.recentReviewCardHeader}>
         <div className={styles.recentReviewCardHeaderInfo}>
-          <Image src={review.author.avatarUrl} alt="" width={40} height={40} />
+          <Image src={review.user.avatarUrl} alt="" width={40} height={40} />
           <div>
-            <p>{review.author.name}</p>
-            <span>{review.date}</span>
+            <p>{review.user.name}</p>
+            <span>{review.createdAt}</span>
           </div>
         </div>
-        <StarsRating stars={review.stars} starsSize={24} />
+        <StarsRating stars={review.rate} starsSize={24} />
       </div>
       <div className={styles.recentReviewCardContent}>
         <Image src={review.book.coverUrl} alt="" height={152} width={108} />
         <div>
           <strong>{review.book.name}</strong>
-          <span>{review.book.authorName}</span>
-          <p>{review.content}</p>
+          <span>{review.book.author}</span>
+          <p>{review.description}</p>
         </div>
       </div>
     </div>

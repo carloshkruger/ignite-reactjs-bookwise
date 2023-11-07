@@ -1,12 +1,13 @@
 import SidebarMenu from "@/components/SidebarMenu";
 import styles from "./styles.module.css";
-import PageTitle from "./_components/PageTitle";
+import PageTitle from "@/components/PageTitle";
 import { PrismaClient } from "@prisma/client";
 import BookReview from "./_components/BookReview";
 import Image from "next/image";
 import { BookOpen, Bookmark, LibraryBig, UserSquare } from "lucide-react";
 import UserStatItem from "./_components/UserStatItem";
 import { getLoggedUserInfo } from "@/utils/getLoggedUserInfo";
+import { User } from "@/components/PhosphorIcons";
 
 const prismaClient = new PrismaClient();
 
@@ -68,7 +69,7 @@ export default async function Profile() {
       <SidebarMenu />
 
       <div className={styles.content}>
-        <PageTitle />
+        <PageTitle title="Perfil" icon={User} />
 
         <div className={styles.contentWrapper}>
           <div className={styles.bookReviewList}>

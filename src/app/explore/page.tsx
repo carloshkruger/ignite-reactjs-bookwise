@@ -1,7 +1,8 @@
 import SidebarMenu from "@/components/SidebarMenu";
 import CategoriesList from "./_components/CategoriesList";
 import BookList from "./_components/BookList";
-import PageTitle from "./_components/PageTitle";
+import PageTitle from "../../components/PageTitle";
+import { Binoculars } from "@/components/PhosphorIcons";
 
 import styles from "./styles.module.css";
 
@@ -29,7 +30,7 @@ export default async function Explore({
       <SidebarMenu />
 
       <div className={styles.content}>
-        <PageTitle />
+        <PageTitle title="Explorar" icon={Binoculars} />
         <CategoriesList categories={categories} />
         <BookList books={books} />
       </div>

@@ -3,8 +3,9 @@ import { ChevronRight } from "lucide-react";
 import { PrismaClient } from "@prisma/client";
 import SidebarMenu from "@/components/SidebarMenu";
 import BookCard from "@/components/BookCard";
-import PageTitle from "./_components/PageTitle";
+import PageTitle from "@/components/PageTitle";
 import RecentReviewCard from "./_components/RecentReviewCard";
+import { ChartLineUp } from "@/components/PhosphorIcons";
 import styles from "./styles.module.css";
 
 const prismaClient = new PrismaClient();
@@ -63,7 +64,7 @@ export default async function Home() {
       <SidebarMenu />
 
       <div className={styles.content}>
-        <PageTitle />
+        <PageTitle title="Início" icon={ChartLineUp} />
 
         <div className={styles.contentWrapper}>
           <div>

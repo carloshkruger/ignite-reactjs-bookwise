@@ -1,9 +1,14 @@
-import styles from "./styles.module.css";
+import { Metadata } from "next";
+import { redirect } from "next/navigation";
 import Logo from "@/components/Logo";
 import LoginAsGuestButton from "./_components/LoginAsGuestButton";
 import GitHubLoginButton from "./_components/GitHubLoginButton";
-import { redirect } from "next/navigation";
 import { getLoggedUserInfo } from "@/utils/getLoggedUserInfo";
+import styles from "./styles.module.css";
+
+export const metadata: Metadata = {
+  title: "BookWise | Login",
+};
 
 export default async function Login() {
   const loggedUser = await getLoggedUserInfo();

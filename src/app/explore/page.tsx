@@ -1,10 +1,10 @@
+import { Metadata } from "next";
 import SidebarMenu from "@/components/SidebarMenu";
 import CategoriesList from "./_components/CategoriesList";
 import BookList from "./_components/BookList";
 import SearchForm from "./_components/SearchForm";
 import PageTitle from "../../components/PageTitle";
 import { Binoculars } from "@/components/PhosphorIcons";
-
 import styles from "./styles.module.css";
 
 async function getData(categoryId: string = "", query: string = "") {
@@ -26,6 +26,12 @@ type SearchParams = {
 
 type ExploreParams = {
   searchParams: SearchParams;
+};
+
+export const metadata: Metadata = {
+  title: "BookWise | Explore",
+  description:
+    "Explore the list of books and filter by categories or search by book title",
 };
 
 export default async function Explore({

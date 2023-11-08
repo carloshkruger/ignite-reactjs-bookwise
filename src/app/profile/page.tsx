@@ -1,14 +1,15 @@
-import SidebarMenu from "@/components/SidebarMenu";
-import styles from "./styles.module.css";
-import PageTitle from "@/components/PageTitle";
-import BookReview from "./_components/BookReview";
+import { Metadata } from "next";
 import Image from "next/image";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { BookOpen, Bookmark, LibraryBig, UserSquare } from "lucide-react";
+import BookReview from "./_components/BookReview";
 import UserStatItem from "./_components/UserStatItem";
 import { User } from "@/components/PhosphorIcons";
-import { headers } from "next/headers";
+import SidebarMenu from "@/components/SidebarMenu";
+import PageTitle from "@/components/PageTitle";
 import { getLoggedUserInfo } from "@/utils/getLoggedUserInfo";
-import { redirect } from "next/navigation";
+import styles from "./styles.module.css";
 
 type User = {
   name: string;
@@ -38,6 +39,10 @@ type GetDataResponse = {
     authorReadCount: number;
     mostReadCategory: string;
   };
+};
+
+export const metadata: Metadata = {
+  title: "BookWise | Profile",
 };
 
 async function getData(): Promise<GetDataResponse> {

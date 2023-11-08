@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./styles.module.css";
 import StarsRating from "@/components/StarsRating";
+import { formatDistanceToNow } from "@/utils/date";
 
 type BookReviewProps = {
   book: {
@@ -20,9 +21,13 @@ export default function BookReview({
   createdAt,
   rate,
 }: BookReviewProps) {
+  const creationDate = formatDistanceToNow(new Date(createdAt));
+
   return (
     <div>
-      <span className={styles.creationDate}>{createdAt}</span>
+      <span title={createdAt} className={styles.creationDate}>
+        {creationDate}
+      </span>
       <div className={styles.container}>
         <div className={styles.header}>
           <Image src={book.coverUrl} width={98} height={134} alt="" />

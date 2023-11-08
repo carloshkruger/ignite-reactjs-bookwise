@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./styles.module.css";
 import StarsRating from "@/components/StarsRating";
+import { formatDistanceToNow } from "@/utils/date";
 
 type RecentReviewCardProps = {
   review: {
@@ -20,6 +21,8 @@ type RecentReviewCardProps = {
 };
 
 export default function RecentReviewCard({ review }: RecentReviewCardProps) {
+  const creationDate = formatDistanceToNow(new Date(review.createdAt));
+
   return (
     <div className={styles.recentReviewCard}>
       <div className={styles.recentReviewCardHeader}>
@@ -27,7 +30,7 @@ export default function RecentReviewCard({ review }: RecentReviewCardProps) {
           <Image src={review.user.avatarUrl} alt="" width={40} height={40} />
           <div>
             <p>{review.user.name}</p>
-            <span>{review.createdAt}</span>
+            <span title={review.createdAt}>{creationDate}</span>
           </div>
         </div>
         <StarsRating stars={review.rate} starsSize={24} />

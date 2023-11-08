@@ -7,6 +7,8 @@ import { BookOpen, Bookmark, LibraryBig, UserSquare } from "lucide-react";
 import UserStatItem from "./_components/UserStatItem";
 import { User } from "@/components/PhosphorIcons";
 import { headers } from "next/headers";
+import { getLoggedUserInfo } from "@/utils/getLoggedUserInfo";
+import { redirect } from "next/navigation";
 
 type User = {
   name: string;
@@ -49,6 +51,12 @@ async function getData(): Promise<GetDataResponse> {
 }
 
 export default async function Profile() {
+  const loggedUser = await getLoggedUserInfo();
+
+  if (!loggedUser) {
+    return redirect("/home");
+  }
+
   const { userInfo, userStats, ratings } = await getData();
 
   return (

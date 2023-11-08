@@ -46,4 +46,5 @@
   color: var(--color-gray-300);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-base);
+  white-space: pre-line;
 }

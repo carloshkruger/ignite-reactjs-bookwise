@@ -87,7 +87,7 @@ export default async function Profile() {
               <Image src={userInfo.avatarUrl!} width={72} height={72} alt="" />
               <p className={styles.userName}>{userInfo.name}</p>
               <span className={styles.userJoinedDate}>
-                {userInfo.createdAt}
+                membro desde {new Date(userInfo.createdAt).getFullYear()}
               </span>
             </div>
             <div className={styles.divider} />

@@ -12,6 +12,11 @@
   overflow-y: auto;
 }
 
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
 @media screen and (max-width: 768px) {
   .content {
     padding-left: 2rem;

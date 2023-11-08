@@ -31,16 +31,20 @@ export default function BookList({ books }: BookListProps) {
   return (
     <>
       <div className={styles.container}>
-        {books.map((book: Book) => (
-          <BookCard
-            key={book.id}
-            name={book.name}
-            author={book.author}
-            image={book.coverUrl}
-            rate={book.rate}
-            onClick={() => handleSelectedBook(book.id)}
-          />
-        ))}
+        {!books.length ? (
+          <div>Nenhum livro encontrado.</div>
+        ) : (
+          books.map((book: Book) => (
+            <BookCard
+              key={book.id}
+              name={book.name}
+              author={book.author}
+              image={book.coverUrl}
+              rate={book.rate}
+              onClick={() => handleSelectedBook(book.id)}
+            />
+          ))
+        )}
       </div>
       {!!selectedBookId && (
         <BookDetail bookId={selectedBookId} onClose={handleCloseBookDetails} />

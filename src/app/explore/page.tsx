@@ -1,14 +1,15 @@
 import SidebarMenu from "@/components/SidebarMenu";
 import CategoriesList from "./_components/CategoriesList";
 import BookList from "./_components/BookList";
+import SearchForm from "./_components/SearchForm";
 import PageTitle from "../../components/PageTitle";
 import { Binoculars } from "@/components/PhosphorIcons";
 
 import styles from "./styles.module.css";
 
-async function getData(categoryId: string = "") {
+async function getData(categoryId: string = "", query: string = "") {
   const response = await fetch(
-    `http://localhost:3000/api/explore?categoryId=${categoryId}`
+    `http://localhost:3000/api/explore?categoryId=${categoryId}&q=${query}`
   );
   const data = await response.json();
 
@@ -18,19 +19,29 @@ async function getData(categoryId: string = "") {
   };
 }
 
+type SearchParams = {
+  categoryId?: string;
+  q?: string;
+};
+
+type ExploreParams = {
+  searchParams: SearchParams;
+};
+
 export default async function Explore({
-  searchParams,
-}: {
-  searchParams: { categoryId: string };
-}) {
-  const { books, categories } = await getData(searchParams.categoryId);
+  searchParams: { categoryId, q: query },
+}: ExploreParams) {
+  const { books, categories } = await getData(categoryId, query);
 
   return (
     <div className={styles.main}>
       <SidebarMenu />
 
       <div className={styles.content}>
-        <PageTitle title="Explorar" icon={Binoculars} />
+        <div className={styles.pageHeader}>
+          <PageTitle title="Explorar" icon={Binoculars} />
+          <SearchForm />
+        </div>
         <CategoriesList categories={categories} />
         <BookList books={books} />
       </div>

@@ -5,6 +5,7 @@ const prismaClient  = new PrismaClient()
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const categoryId = searchParams.get('categoryId')
+  const query = searchParams.get('q') || ''
 
   let booksWhere: Prisma.BookWhereInput = {}
   if (categoryId) {
@@ -12,6 +13,11 @@ export async function GET(request: Request) {
       some: {
         categoryId
       }
+    }
+  }
+  if (query) {
+    booksWhere.name = {
+      contains: query
     }
   }
 

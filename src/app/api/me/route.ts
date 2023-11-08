@@ -18,6 +18,10 @@ export async function GET(request: Request) {
     },
   });
 
+  if (!userInfo) {
+    return Response.error()
+  }
+
   const ratings = await prismaClient.rating.findMany({
     include: {
       book: {
@@ -40,15 +44,71 @@ export async function GET(request: Request) {
     },
   });
 
-  const reviewCount = await prismaClient.rating.count({
-    where: {
-      userId: userInfo?.id,
-    },
-  });
-
-  const userStats = {
-    reviewCount,
-  };
+  const userStats = await getUserStats(userInfo.id)
 
   return Response.json({ userInfo, userStats, ratings })
+}
+
+type UserStats = {
+  reviewCount: number;
+  pagesReadCount: number;
+  authorReadCount: number;
+  mostReadCategory: string;
+}
+
+async function getUserStats(userId: string): Promise<UserStats> {
+  const [reviewCount, totalPagesRaw, authorCountRaw, [mostReadCategoryRaw]] = await Promise.all([
+    prismaClient.rating.count({
+      where: {
+        userId,
+      },
+    }),
+    prismaClient.book.aggregate({
+      _sum: {
+        totalPages: true
+      },
+      where: {
+        ratings: {
+          some: {
+            userId
+          }
+        }
+      }
+    }),
+    prismaClient.book.aggregate({
+      _count: {
+        author: true
+      },
+      where: {
+        ratings: {
+          some: {
+            userId
+          }
+        }
+      }
+    }),
+    prismaClient.$queryRaw<{ name: string }[]>`
+      SELECT categories.name
+        FROM categories
+       WHERE categories.id = (
+          SELECT "CategoriesOnBooks".categoryId
+            FROM ratings
+            JOIN books
+              ON books.id = ratings.bookId
+            JOIN "CategoriesOnBooks"
+              ON "CategoriesOnBooks".bookId = books.id
+          WHERE ratings.userId = ${userId}
+        GROUP BY "CategoriesOnBooks".categoryId
+        ORDER BY COUNT(*) DESC
+          LIMIT 1
+            )  
+    `
+  ])
+
+  return {
+    reviewCount,
+    pagesReadCount: totalPagesRaw._sum.totalPages ?? 0,
+    authorReadCount: authorCountRaw._count.author ?? 0,
+    mostReadCategory: mostReadCategoryRaw.name
+  };
 }

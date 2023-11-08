@@ -34,6 +34,9 @@ type GetDataResponse = {
   ratings: Rating[];
   userStats: {
     reviewCount: number;
+    pagesReadCount: number;
+    authorReadCount: number;
+    mostReadCategory: string;
   };
 };
 
@@ -95,18 +98,22 @@ export default async function Profile() {
               <UserStatItem
                 icon={BookOpen}
                 title="Páginas lidas"
-                value="3853"
+                value={userStats.pagesReadCount}
               />
               <UserStatItem
                 icon={LibraryBig}
                 title="Livros avaliados"
                 value={userStats.reviewCount}
               />
-              <UserStatItem icon={UserSquare} title="Autores lidos" value="8" />
+              <UserStatItem
+                icon={UserSquare}
+                title="Autores lidos"
+                value={userStats.authorReadCount}
+              />
               <UserStatItem
                 icon={Bookmark}
                 title="Categoria mais lida"
-                value="Computação"
+                value={userStats.mostReadCategory}
               />
             </div>
           </div>

@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prismaClient  = new PrismaClient()
 
 export async function GET(request: Request) {
-  const books = await prismaClient.book.findMany({
+  const popularBooks = await prismaClient.book.findMany({
     orderBy: {
       ratings: {
         _count: "desc",
@@ -18,7 +18,7 @@ export async function GET(request: Request) {
     },
     where: {
       bookId: {
-        in: books.map((book) => book.id),
+        in: popularBooks.map((book) => book.id),
       },
     },
   });
@@ -35,10 +35,13 @@ export async function GET(request: Request) {
       },
     },
     take: 5,
+    orderBy: {
+      createdAt: 'desc'
+    }
   });
 
   return Response.json({
-    popularBooks: books.map((book) => ({
+    popularBooks: popularBooks.map((book) => ({
       ...book,
       rate:
         bookRatings.find((rating) => rating.bookId === book.id)?._avg?.rate ??

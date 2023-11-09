@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
+import { ToastContainer } from "react-toastify";
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 import styles from "./layout.module.css";
 import NextAuthProvider from "@/providers/NextAuthProvider";
 
@@ -21,6 +23,7 @@ export default function RootLayout({
         <NextAuthProvider>
           <div className={styles.main}>{children}</div>
         </NextAuthProvider>
+        <ToastContainer position="top-right" limit={5} />
       </body>
     </html>
   );

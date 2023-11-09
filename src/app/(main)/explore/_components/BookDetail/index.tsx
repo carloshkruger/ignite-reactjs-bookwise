@@ -6,6 +6,7 @@ import StarsRating from "@/components/StarsRating";
 import { useSession } from "next-auth/react";
 import ReviewList, { Rating } from "../ReviewList";
 import ReviewForm from "../ReviewForm";
+import { toast } from "react-toastify";
 
 type BookDetails = {
   id: string;
@@ -50,7 +51,7 @@ export default function BookDetail({ bookId, onClose }: BookDetailProps) {
 
   function handleShowReviewForm() {
     if (!isUserAuthenticated) {
-      alert("Você precisa estar logado para avaliar.");
+      toast.warning("Você precisa estar logado para avaliar.");
       return;
     }
     setShowReviewForm((state) => !state);
@@ -73,9 +74,11 @@ export default function BookDetail({ bookId, onClose }: BookDetailProps) {
     });
 
     if (!response.ok) {
-      alert("Ocorreu um erro ao salvar a avaliação");
+      toast.error("Ocorreu um erro ao salvar a avaliação");
       return;
     }
+
+    toast.success("Avaliação cadastrada com sucesso");
 
     const newRating = await response.json();
 

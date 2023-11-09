@@ -3,6 +3,7 @@ import { Check, X } from "lucide-react";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import styles from "./styles.module.css";
+import { toast } from "react-toastify";
 
 type ReviewFormProps = {
   user: {
@@ -24,14 +25,14 @@ export default function ReviewForm({
     e.preventDefault();
 
     if (!selectedStars) {
-      alert("Selecione a quantidade de estrelas.");
+      toast.warning("Selecione a quantidade de estrelas.");
       return;
     }
 
     const reviewContent = e.currentTarget.reviewContent.value.trim();
 
     if (!reviewContent) {
-      alert("Informe o conteúdo da avaliação.");
+      toast.warning("Informe o conteúdo da avaliação.");
       return;
     }
 

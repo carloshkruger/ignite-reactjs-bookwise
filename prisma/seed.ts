@@ -1,20 +1,18 @@
-import { PrismaClient } from '@prisma/client'
 import { books } from './constants/books'
 import { categories } from './constants/categories'
 import { ratings } from './constants/ratings'
 import { users } from './constants/users'
-
-const prisma = new PrismaClient()
+import { prismaClient } from '@/lib/prismaClient'
 
 async function main() {
-  await prisma.rating.deleteMany()
-  await prisma.user.deleteMany()
-  await prisma.categoriesOnBooks.deleteMany()
-  await prisma.category.deleteMany()
-  await prisma.book.deleteMany()
+  await prismaClient.rating.deleteMany()
+  await prismaClient.user.deleteMany()
+  await prismaClient.categoriesOnBooks.deleteMany()
+  await prismaClient.category.deleteMany()
+  await prismaClient.book.deleteMany()
 
   const usersSeed = users.map((user) => {
-    return prisma.user.create({
+    return prismaClient.user.create({
       data: {
         id: user.id,
         name: user.name,
@@ -25,7 +23,7 @@ async function main() {
   })
 
   const categoriesSeed = categories.map((category) => {
-    return prisma.category.create({
+    return prismaClient.category.create({
       data: {
         name: category.name,
         id: category.id,
@@ -34,7 +32,7 @@ async function main() {
   })
 
   const booksSeed = books.map((book) => {
-    return prisma.book.create({
+    return prismaClient.book.create({
       data: {
         id: book.id,
         name: book.name,
@@ -60,7 +58,7 @@ async function main() {
   })
 
   const ratingsSeed = ratings.map((rating) => {
-    return prisma.rating.create({
+    return prismaClient.rating.create({
       data: {
         id: rating.id,
         rate: rating.rate,
@@ -75,7 +73,7 @@ async function main() {
     })
   })
 
-  await prisma.$transaction([
+  await prismaClient.$transaction([
     ...categoriesSeed,
     ...booksSeed,
     ...usersSeed,
@@ -85,10 +83,10 @@ async function main() {
 
 main()
   .then(async () => {
-    await prisma.$disconnect()
+    await prismaClient.$disconnect()
   })
   .catch(async (e) => {
     console.error(e)
-    await prisma.$disconnect()
+    await prismaClient.$disconnect()
     process.exit(1)
   })

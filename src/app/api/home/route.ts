@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prismaClient  = new PrismaClient()
+import { prismaClient } from "@/lib/prismaClient";
 
 export async function GET(request: Request) {
   const popularBooks = await prismaClient.book.findMany({

@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prismaClient  = new PrismaClient()
+import { prismaClient } from "@/lib/prismaClient";
 
 export async function GET(request: Request, { params }: {params: {id: string}}) {
   const bookId = params.id

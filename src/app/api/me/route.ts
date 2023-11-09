@@ -1,7 +1,5 @@
+import { prismaClient } from "@/lib/prismaClient";
 import { getLoggedUserInfo } from "@/utils/getLoggedUserInfo";
-import { PrismaClient } from "@prisma/client";
-
-const prismaClient  = new PrismaClient()
 
 export async function GET(request: Request) {
   const loggedUser = await getLoggedUserInfo()

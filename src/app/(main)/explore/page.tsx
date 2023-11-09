@@ -1,9 +1,8 @@
 import { Metadata } from "next";
-import SidebarMenu from "@/components/SidebarMenu";
 import CategoriesList from "./_components/CategoriesList";
 import BookList from "./_components/BookList";
 import SearchForm from "./_components/SearchForm";
-import PageTitle from "../../components/PageTitle";
+import PageTitle from "../../../components/PageTitle";
 import { Binoculars } from "@/components/PhosphorIcons";
 import styles from "./styles.module.css";
 
@@ -40,17 +39,13 @@ export default async function Explore({
   const { books, categories } = await getData(categoryId, query);
 
   return (
-    <div className={styles.main}>
-      <SidebarMenu />
-
-      <div className={styles.content}>
-        <div className={styles.pageHeader}>
-          <PageTitle title="Explorar" icon={Binoculars} />
-          <SearchForm />
-        </div>
-        <CategoriesList categories={categories} />
-        <BookList books={books} />
+    <div className={styles.content}>
+      <div className={styles.pageHeader}>
+        <PageTitle title="Explorar" icon={Binoculars} />
+        <SearchForm />
       </div>
+      <CategoriesList categories={categories} />
+      <BookList books={books} />
     </div>
   );
 }

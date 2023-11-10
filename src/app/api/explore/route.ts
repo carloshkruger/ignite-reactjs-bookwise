@@ -20,7 +20,11 @@ export async function GET(request: Request) {
     }
   }
 
-  const categories = await prismaClient.category.findMany();
+  const categories = await prismaClient.category.findMany({
+    orderBy: {
+      name: 'asc'
+    }
+  });
   const books = await prismaClient.book.findMany({
     where: booksWhere
   });

@@ -1,9 +1,11 @@
-import StarsRating from "@/components/StarsRating";
-import { Check, X } from "lucide-react";
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Check, X } from "lucide-react";
+import StarsRating from "@/components/StarsRating";
+import { ReviewSchemaType, reviewSchema } from "@/lib/types/review";
 import styles from "./styles.module.css";
-import { toast } from "react-toastify";
+import InputErrorMessage from "@/components/InputErrorMessage";
 
 type ReviewFormProps = {
   user: {
@@ -19,28 +21,19 @@ export default function ReviewForm({
   onCloseReviewForm,
   onCreateReview,
 }: ReviewFormProps) {
-  const [selectedStars, setSelectedStars] = useState(0);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+    register,
+    reset,
+  } = useForm<ReviewSchemaType>({
+    resolver: zodResolver(reviewSchema),
+  });
 
-  async function handleCreateReview(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    if (!selectedStars) {
-      toast.warning("Selecione a quantidade de estrelas.");
-      return;
-    }
-
-    const reviewContent = e.currentTarget.reviewContent.value.trim();
-
-    if (!reviewContent) {
-      toast.warning("Informe o conteúdo da avaliação.");
-      return;
-    }
-
-    onCreateReview({ rate: selectedStars, content: reviewContent });
-  }
-
-  function handleSelectedStars(stars: number) {
-    setSelectedStars(stars);
+  async function handleCreateReview(data: ReviewSchemaType) {
+    await onCreateReview({ rate: data.rate, content: data.description });
+    reset();
   }
 
   function handleCloseReviewForm() {
@@ -48,24 +41,47 @@ export default function ReviewForm({
   }
 
   return (
-    <form className={styles.form} onSubmit={handleCreateReview}>
+    <form className={styles.form} onSubmit={handleSubmit(handleCreateReview)}>
       <div className={styles.formHeader}>
         <div className={styles.userInfo}>
           <Image src={user.avatarUrl} alt="" width={40} height={40} />
           <strong>{user.name}</strong>
         </div>
-        <StarsRating stars={selectedStars} onSelect={handleSelectedStars} />
+        <Controller
+          control={control}
+          name="rate"
+          render={({ field }) => (
+            <StarsRating
+              {...field}
+              stars={field.value}
+              onSelect={(rate: number) => field.onChange(rate)}
+            />
+          )}
+        />
       </div>
-      <textarea name="reviewContent" placeholder="Escreva sua avaliação" />
+      <textarea
+        {...register("description")}
+        name="description"
+        placeholder="Escreva sua avaliação"
+      />
+
+      <InputErrorMessage message={errors.rate?.message} />
+      <InputErrorMessage message={errors.description?.message} />
+
       <div className={styles.formFooter}>
         <button
           onClick={handleCloseReviewForm}
           type="button"
           className={styles.cancelButton}
+          disabled={isSubmitting}
         >
           <X />
         </button>
-        <button type="submit" className={styles.submitButton}>
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={isSubmitting}
+        >
           <Check />
         </button>
       </div>

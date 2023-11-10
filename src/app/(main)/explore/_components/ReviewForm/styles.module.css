@@ -55,7 +55,12 @@
   cursor: pointer;
 }
 
-.formFooter button:hover {
+.formFooter button:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.formFooter button:not(:disabled):hover {
   background: var(--color-gray-600);
 }
 

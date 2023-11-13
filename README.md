@@ -13,6 +13,13 @@ You can Sign In in the application or use it as a guest.
 ## Getting Started
 
 ```bash
+
+# Configure the environment variables file
+
+# Copy the ".env.example" file and rename it to ".env"
+# For the "GITHUB_CLIENT_ID" and "GITHUB_CLIENT_SECRET" variables, you need to generate it on your GitHub profile settings.
+# For the "NEXTAUTH_SECRET" variable, you can generate a random string.
+
 # Install dependencies
 npm ci
 

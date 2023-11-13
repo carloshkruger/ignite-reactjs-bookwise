@@ -26,8 +26,10 @@ export const metadata: Metadata = {
 export default async function Explore({
   searchParams: { categoryId, q: query },
 }: ExploreParams) {
-  const books = await getBooks({ categoryId, query });
-  const categories = await getCategories();
+  const [books, categories] = await Promise.all([
+    getBooks({ categoryId, query }),
+    getCategories(),
+  ]);
 
   return (
     <div className={styles.content}>

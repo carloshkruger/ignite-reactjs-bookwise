@@ -6,6 +6,7 @@
   cursor: pointer;
   position: relative;
   border-radius: var(--radii-md);
+  flex: 1;
 }
 
 .container > div {

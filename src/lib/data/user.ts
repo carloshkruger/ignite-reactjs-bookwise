@@ -1,7 +1,7 @@
-import { prismaClient } from "@/lib/prismaClient";
 import { getLoggedUserInfo } from "@/utils/getLoggedUserInfo";
+import { prismaClient } from "../prismaClient";
 
-export async function GET(request: Request) {
+export const getProfileInfo = async () => {
   const loggedUser = await getLoggedUserInfo()
 
   const userInfo = await prismaClient.user.findUnique({
@@ -17,7 +17,7 @@ export async function GET(request: Request) {
   });
 
   if (!userInfo) {
-    return Response.error()
+    throw new Error('User not found.')
   }
 
   const ratings = await prismaClient.rating.findMany({
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
 
   const userStats = await getUserStats(userInfo.id)
 
-  return Response.json({ userInfo, userStats, ratings })
+  return { userInfo, userStats, ratings }
 }
 
 type UserStats = {

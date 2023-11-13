@@ -7,30 +7,35 @@ type RecentReviewCardProps = {
   review: {
     user: {
       name: string;
-      avatarUrl: string;
+      avatarUrl: string | null;
     };
     book: {
       name: string;
       author: string;
       coverUrl: string;
     };
-    createdAt: string;
+    createdAt: Date;
     rate: number;
     description: string;
   };
 };
 
 export default function RecentReviewCard({ review }: RecentReviewCardProps) {
-  const creationDate = formatDistanceToNow(new Date(review.createdAt));
+  const creationDate = formatDistanceToNow(review.createdAt);
 
   return (
     <div className={styles.recentReviewCard}>
       <div className={styles.recentReviewCardHeader}>
         <div className={styles.recentReviewCardHeaderInfo}>
-          <Image src={review.user.avatarUrl} alt="" width={40} height={40} />
+          <Image
+            src={review.user.avatarUrl || ""}
+            alt=""
+            width={40}
+            height={40}
+          />
           <div>
             <p>{review.user.name}</p>
-            <span title={review.createdAt}>{creationDate}</span>
+            <span title={review.createdAt.toString()}>{creationDate}</span>
           </div>
         </div>
         <StarsRating stars={review.rate} starsSize={24} />

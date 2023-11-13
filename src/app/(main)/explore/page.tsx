@@ -4,19 +4,9 @@ import BookList from "./_components/BookList";
 import SearchForm from "./_components/SearchForm";
 import PageTitle from "../../../components/PageTitle";
 import { Binoculars } from "@/components/PhosphorIcons";
+import { getBooks } from "@/lib/data/books";
+import { getCategories } from "@/lib/data/categories";
 import styles from "./styles.module.css";
-
-async function getData(categoryId: string = "", query: string = "") {
-  const response = await fetch(
-    `http://localhost:3000/api/explore?categoryId=${categoryId}&q=${query}`
-  );
-  const data = await response.json();
-
-  return {
-    books: data.books,
-    categories: data.categories,
-  };
-}
 
 type SearchParams = {
   categoryId?: string;
@@ -36,7 +26,8 @@ export const metadata: Metadata = {
 export default async function Explore({
   searchParams: { categoryId, q: query },
 }: ExploreParams) {
-  const { books, categories } = await getData(categoryId, query);
+  const books = await getBooks({ categoryId, query });
+  const categories = await getCategories();
 
   return (
     <div className={styles.content}>

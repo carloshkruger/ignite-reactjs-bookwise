@@ -4,49 +4,14 @@ import BookCard from "@/components/BookCard";
 import PageTitle from "@/components/PageTitle";
 import RecentReviewCard from "./_components/RecentReviewCard";
 import { ChartLineUp } from "@/components/PhosphorIcons";
+import { getPopularBooks, getRecentReviews } from "@/lib/data/books";
 import styles from "./styles.module.css";
 
-type Book = {
-  id: string;
-  name: string;
-  author: string;
-  coverUrl: string;
-  rate: number;
-};
-
-type Review = {
-  id: string;
-  user: {
-    name: string;
-    avatarUrl: string;
-  };
-  book: {
-    name: string;
-    author: string;
-    coverUrl: string;
-  };
-  createdAt: string;
-  rate: number;
-  description: string;
-};
-
-type GetDataResponse = {
-  popularBooks: Book[];
-  recentReviews: Review[];
-};
-
-async function getData(): Promise<GetDataResponse> {
-  const response = await fetch("http://localhost:3000/api/home");
-  const data = await response.json();
-
-  return {
-    popularBooks: data.popularBooks,
-    recentReviews: data.recentReviews,
-  };
-}
-
 export default async function Home() {
-  const { popularBooks, recentReviews } = await getData();
+  const [popularBooks, recentReviews] = await Promise.all([
+    getPopularBooks(),
+    getRecentReviews(),
+  ]);
 
   return (
     <div className={styles.content}>

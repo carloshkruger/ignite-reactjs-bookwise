@@ -11,7 +11,7 @@ type BookReviewProps = {
     ratings: { rate: number }[];
   };
   description: string;
-  createdAt: string;
+  createdAt: Date;
   rate: number;
 };
 
@@ -25,7 +25,7 @@ export default function BookReview({
 
   return (
     <div>
-      <span title={createdAt} className={styles.creationDate}>
+      <span title={createdAt.toString()} className={styles.creationDate}>
         {creationDate}
       </span>
       <div className={styles.container}>

@@ -17,3 +17,19 @@
     padding-right: 2rem;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .content {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .pageHeader {
+    flex-direction: column;
+  }
+
+  .pageHeader form {
+    padding-left: 0;
+  }
+}

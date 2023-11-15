@@ -1,0 +1,55 @@
+.menuModal {
+  display: none;
+  flex-direction: column;
+  padding-top: 1rem;
+  padding-right: 1rem;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 2;
+
+  background: linear-gradient(
+    to bottom,
+    #1b2041,
+    #141923,
+    #14162c,
+    #141f34,
+    #14242c
+  );
+}
+
+.menuModalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1;
+}
+
+.menuButton,
+.closeMenuButton {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.menuButton {
+  display: none;
+  margin-left: auto;
+  margin-bottom: 0.25rem;
+}
+
+.closeMenuButton {
+  align-self: flex-end;
+}
+
+@media screen and (max-width: 768px) {
+  .menuButton {
+    display: flex;
+  }
+  .open {
+    display: flex;
+  }
+}

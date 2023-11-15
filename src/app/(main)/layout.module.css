@@ -1,5 +1,16 @@
 .main {
+  height: 100%;
+  overflow: hidden;
+}
+
+.mainContent {
+  height: 100%;
   display: grid;
   grid-template-columns: 232px 1fr;
-  height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .mainContent {
+    grid-template-columns: 1fr;
+  }
 }

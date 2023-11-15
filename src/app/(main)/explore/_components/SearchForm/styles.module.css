@@ -28,3 +28,14 @@
   margin-right: 0.5rem;
   color: var(--color-gray-500);
 }
+
+@media screen and (max-width: 768px) {
+  .searchForm {
+    padding-top: 1rem;
+    padding-left: 0;
+  }
+
+  .inputWrapper {
+    max-width: 100%;
+  }
+}

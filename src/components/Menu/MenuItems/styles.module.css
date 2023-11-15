@@ -39,8 +39,6 @@
 .bottomMenuItems {
   margin-top: auto;
   margin-bottom: 1.5rem;
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
 }
 
 .bottomMenuItem {
@@ -69,4 +67,12 @@
 
 .signOutButton svg {
   color: var(--color-danger);
+}
+
+@media screen and (max-width: 768px) {
+  .menuItems .menuItem,
+  .bottomMenuItem,
+  .signOutButton {
+    font-size: var(--font-size-2xl);
+  }
 }

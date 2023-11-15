@@ -1,4 +1,5 @@
 .menuContainer {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,4 +15,10 @@
     #141f34,
     #14242c
   );
+}
+
+@media screen and (max-width: 768px) {
+  .menuContainer {
+    display: none;
+  }
 }

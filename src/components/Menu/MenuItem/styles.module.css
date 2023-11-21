@@ -1,0 +1,33 @@
+.menuItem {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--color-gray-400);
+  position: relative;
+}
+
+.menuItem:hover {
+  color: var(--color-gray-200);
+}
+
+.menuItem.active {
+  color: var(--color-gray-100);
+}
+
+.menuItem.active:before {
+  content: "";
+  width: 4px;
+  height: 24px;
+  background: var(--gradient-vertical);
+  position: absolute;
+  left: -1.25rem;
+}
+
+@media screen and (max-width: 768px) {
+  .menuItem {
+    font-size: var(--font-size-2xl);
+  }
+}

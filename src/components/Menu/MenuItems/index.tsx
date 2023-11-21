@@ -1,43 +1,19 @@
-"use client";
-
-import { ElementType } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Binoculars, ChartLineUp, SignIn, SignOut, User } from "phosphor-react";
+import {
+  Binoculars,
+  ChartLineUp,
+  SignIn,
+  User,
+} from "@/components/PhosphorIcons";
+import MenuItem from "../MenuItem";
+import SignOutButton from "../SignOutButton";
 import styles from "./styles.module.css";
-import { signOut } from "next-auth/react";
-
-type MenuItemProps = {
-  href: string;
-  text: string;
-  icon: ElementType;
-};
-
-function MenuItem({ href, text, icon: Icon }: MenuItemProps) {
-  const pathName = usePathname();
-
-  return (
-    <Link
-      href={href}
-      className={`${styles.menuItem} ${
-        pathName === `/${href}` ? styles.active : ""
-      }`}
-    >
-      <Icon size={24} />
-      {text}
-    </Link>
-  );
-}
 
 type MenuItemsProps = {
   isUserAuthenticated: boolean;
 };
 
 export default function MenuItems({ isUserAuthenticated }: MenuItemsProps) {
-  async function handleSignOut() {
-    await signOut();
-  }
-
   return (
     <>
       <div className={styles.menuItems}>
@@ -49,10 +25,7 @@ export default function MenuItems({ isUserAuthenticated }: MenuItemsProps) {
       </div>
       <div className={styles.bottomMenuItems}>
         {isUserAuthenticated ? (
-          <button onClick={handleSignOut} className={styles.signOutButton}>
-            Deslogar
-            <SignOut size={24} />
-          </button>
+          <SignOutButton />
         ) : (
           <Link href="login" className={styles.bottomMenuItem}>
             Fazer Login

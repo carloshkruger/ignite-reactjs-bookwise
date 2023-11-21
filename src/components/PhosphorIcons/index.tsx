@@ -1,3 +1,3 @@
 "use client";
 
-export { Binoculars, ChartLineUp, User } from "phosphor-react";
+export { Binoculars, ChartLineUp, SignIn, SignOut, User } from "phosphor-react";
